@@ -1,0 +1,16 @@
+.container{
+    position: absolute;
+    bottom: 104px;
+    left: 600px;
+}
+.heart{
+    position: absolute;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 85px;
+    bottom: 0px;
+    left: 0px;
+    background-image: url(../images/others/heart.png);
+    animation-duration: 2.5s;
+}

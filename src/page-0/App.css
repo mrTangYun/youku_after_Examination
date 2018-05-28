@@ -1,0 +1,206 @@
+html, body, #root{
+  width: 100%;
+  height: 100%;
+
+}
+.App {
+  width: 100%;
+  height: 100%;
+  background-repeat: repeat-y;
+  background-image: url(../images/p0/grassground.jpg);
+  background-size: 100% auto;
+  position: relative;
+}
+img {
+  content: normal !important;
+}
+.bg, .six, .text, .dingding, .nianfen, .yazm, .znzd, .left-cloud, .right-cloud, .right-cloud2, .left-leaves, .right-leaves, .grass, .bamboo{
+  position: absolute;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+
+.bg{
+  width: 100%;
+  height: 1517px;
+  background-repeat: repeat-y;
+  background-image: url(../images/p0/bg.jpg);
+  background-size: 100% auto;
+}
+.grass{
+  top: 957px;
+  left: 0px;
+  width: 1240px;
+  height: 1248px;
+  background-image: url(../images/p0/grass.png);
+}
+.bamboo{
+  top: 0px;
+  left: 0px;
+  width: 1240px;
+  height: 1733px;
+  background-image: url(../images/p0/bamboo.png);
+}
+
+.slogan{
+  position: relative;
+}
+.nianfen{
+  top: 235px;
+  left: 426px;
+  width: 389px;
+  height: 41px;
+  background-image: url(../images/p0/2012-2018.png);
+}
+.yazm{
+  top: 291px;
+  left: 170px;
+  width: 931px;
+  height: 127px;
+  background-image: url(../images/p0/sloglan.png);
+
+}
+.znzd{
+  top: 441px;
+  left: 289px;
+  width: 659px;
+  height: 59px;
+  background-image: url(../images/p0/zhounianzhangdan.png);
+}
+
+.jixiangmu{
+  position: relative;
+}
+
+.six{
+  top: 576px;
+  left: 334px;
+  width: 704px;
+  height: 969px;
+  background-image: url(../images/p0/6.png);
+}
+.text{
+  top: 1621px;
+  left: 679px;
+  width: 355px;
+  height: 149px;
+  background-image: url(../images/p0/mssjyh.png);
+  /*background-size: 100% auto;*/
+}
+.dingding{
+  top: 1055px;
+  left: 125px;
+  width: 533px;
+  height: 866px;
+  background-image: url(../images/p0/dingding.png);
+  /*background-size: 100% auto;*/
+}
+
+.left-leaves{
+  top: 632px;
+  left: 1px;
+  width: 224px;
+  height: 146px;
+  background-image: url(../images/p0/left-leaves.png);
+}
+.right-leaves{
+  top: 9px;
+  left: 986px;
+  width: 225px;
+  height: 229px;
+  background-image: url(../images/p0/right-leaves.png);
+}
+
+
+.left-cloud{
+  top: 527px;
+  left: 0px;
+  width: 379px;
+  height: 167px;
+  background-image: url(../images/p0/left-cloud.png);
+}
+.right-cloud, .right-cloud2{
+  top: 741px;
+  left: 964px;
+  width: 246px;
+  height: 109px;
+  background-image: url(../images/p0/right-cloud.png);
+}
+
+
+.left-leaves, .right-leaves{
+  -webkit-animation-name: leaves-shake;
+  animation-name: leaves-shake;
+  transform-origin: 0 0;
+}
+.right-leaves{
+  animation-name: leaves-shake;
+  transform-origin: 100% 50%;
+}
+@keyframes leaves-shake {
+  from {
+    transform: rotate(0deg) skew(0, 0deg) scale(1, 1);
+  }
+
+  50% {
+    transform: rotate(4deg) skew(0deg, 5deg);
+  }
+  to {
+    transform: rotate(0deg) skew(0, 0deg) scale(1, 1);
+  }
+}
+
+
+.left-cloud{
+  animation-name: cloud-move1;
+  animation-duration: 15s;
+  animation-timing-function: linear;
+}
+.right-cloud{
+  animation-name: cloud-move2;
+  animation-duration: 20s;
+  animation-timing-function: linear;
+}
+.right-cloud2{
+  left: -246px;
+  animation-name: cloud-move3;
+  animation-duration: 30s;
+  animation-timing-function: linear;
+}
+
+.cloud-move1 {
+  animation-name: cloud-move1;
+}
+
+@keyframes cloud-move1 {
+  from {
+    transform: translate(-349px 0);
+  }
+  to {
+    transform: translate(1240px 0);
+  }
+}
+
+.cloud-move2{
+  animation-name: cloud-move2;
+}
+@keyframes cloud-move2 {
+  from {
+    transform: translate(0px 0);
+  }
+  to {
+    transform: translate(1240px 0);
+  }
+}
+
+.cloud-move3{
+  animation-name: cloud-move3;
+}
+@keyframes cloud-move3 {
+  from {
+    transform: translate(-246px 0);
+  }
+  to {
+    transform: translate(1240px 0);
+  }
+}
