@@ -12,6 +12,14 @@ img {
   content: normal !important;
 }
 
+.canvas{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 71px;
+}
+
 .modal{
   width: 572px;
   text-align: center;

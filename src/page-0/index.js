@@ -4,14 +4,20 @@ import styles from './App.css';
 import ModalBegain from '../components/modal-begain'
 import Tools from '../components/tools'
 
-
-
 class App extends Component {
 	constructor() {
 		super();
 		this.state = {
 			showModal: true
 		};
+	}
+
+	componentDidMount() {
+		window.canvasContainer = this.canvas;
+	}
+
+	componentWillUnMount() {
+		window.canvasContainer = null;
 	}
 
 	clickStartGameHandler = () => {
@@ -22,6 +28,12 @@ class App extends Component {
 	render() {
 		return (
 			<div styleName="App">
+				<div
+					styleName="canvas"
+					ref={node => {
+						this.canvas = node;
+					}}
+				/>
 				<Tools />
 				{
 					this.state.showModal  && <ModalBegain onClick={this.clickStartGameHandler} />
