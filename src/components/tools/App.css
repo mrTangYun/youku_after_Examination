@@ -45,7 +45,7 @@
   justify-content: center;
   align-items: center;
 }
-.arrow img{
+.arrow > img{
   transform: rotate(0deg) ;
   transform-origin: 50% 50%;
   width: 60%;
@@ -58,7 +58,7 @@
   opacity: 1;
 }
 
-.showSubOptions .arrow img{
+.showSubOptions .arrow > img{
   transform: rotate(-180deg) ;
 }
 
@@ -70,4 +70,25 @@
   flex-wrap: nowrap;
   -webkit-overflow-scrolling: touch;
   transform: all 1s;
+}
+
+.generate{
+  width: 82px;
+  height: 81px;
+  border-radius: 14px;
+  background: #000;
+  position: absolute;
+  bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 22.14px;
+  color: #fff;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.generate img{
+  width: 49px;
 }

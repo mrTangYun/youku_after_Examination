@@ -7,12 +7,25 @@ import Tools from '../components/tools'
 
 
 class App extends Component {
+	constructor() {
+		super();
+		this.state = {
+			showModal: true
+		};
+	}
+
+	clickStartGameHandler = () => {
+		this.setState({
+			showModal: false
+		});
+	};
 	render() {
 		return (
 			<div styleName="App">
-				<div>生成</div>
 				<Tools />
-				<ModalBegain />
+				{
+					this.state.showModal  && <ModalBegain onClick={this.clickStartGameHandler} />
+				}
 			</div>
 		);
 	}

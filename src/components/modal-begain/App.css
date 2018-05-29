@@ -10,7 +10,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  display: none;
+  /* display: none; */
 }
 .modal{
   width: 572px;
@@ -41,5 +41,34 @@
   width: 347px;
   height: 397px;
   margin: 21px auto 40px;
-  border: 3px solid rgba(255,255, 255, 0.5)
+  border: 3px solid rgba(255,255, 255, 0.5);
+  position: relative;
+  background-image: url(../../images/others/sprite-animate.png);
+  background-repeat: no-repeat;
+  background-size: 191px auto;
+  background-position: center;
+}
+
+.icon-scale, .icon-close, .icon-rotate{
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.icon-scale{
+  top: -20px;
+  left: -20px;
+  background-image: url(../../images/others/scale.png);
+}
+.icon-close{
+  top: -20px;
+  right: -20px;
+  background-image: url(../../images/others/close.png);
+}
+.icon-rotate{
+  bottom: -20px;
+  right: -20px;
+  background-image: url(../../images/others/rotate.png);
 }

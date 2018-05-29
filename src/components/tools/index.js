@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CSSModules from 'react-css-modules';
 import styles from './App.css';
 import CategoryItem from './categoryItem';
+import OptionItem from './optionItem';
 
 
 const arrayBigClass = [
@@ -66,7 +67,8 @@ class App extends Component {
 		this.state = {
 			showSubOptions: true,
 			categoryIndex: 3,
-			sex: 'male'
+			sex: 'male',
+			currentSubOptionIndex: null
 		};
 	}
 
@@ -74,30 +76,63 @@ class App extends Component {
 		this.setState({
 			showSubOptions: !this.state.showSubOptions
 		});
-		console.log(this.state.showSubOptions);
 	};
 
 	clickBigClassIndex = index => {
 		this.categoryContainer.scrollLeft = index > 3 ? 100 : 0;
 		this.setState({
-			categoryIndex: index
+			showSubOptions: true,
+			categoryIndex: index,
+			currentSubOptionIndex: null
 		});
 	};
+
+	clickSubOptionItemHandler = (index, element) => {
+		// transform: translateX(-left);/
+		// console.log(this.node.style.transform);
+		const offsetLeft = element.offsetWidth / 2 + element.offsetLeft - this.WIDTH / 2;
+		// this.node.style.transform = `translateX(-${element.offsetWidth / 2 + element.offsetLeft - this.WIDTH / 2}px)`;
+		this.node.scrollLeft = offsetLeft;
+		this.setState({
+			currentSubOptionIndex: index
+		});
+	};
+
+	generateHandler = (event) => {
+		event.preventDefault();
+		event.stopPropagation();
+	};
+
+	componentDidMount() {
+		this.WIDTH = this.node.offsetWidth;
+		console.log(this.WIDTH);
+	}
 	render() {
 		const category = arrayBigClass[this.state.categoryIndex];
 		const isClassBySex = !!category.sex;
 		const optionsDataTotal = isClassBySex ? category.sex[this.state.sex] : category.totalIcons;
+		const hasDirName = !!category.dirName;
 		const subOptionIconsDirName = isClassBySex ? `${category.dirName}/${this.state.sex}` : `${category.dirName}`;
-		console.log(`${category.dirName}/${this.state.sex}`);
 		return (
 			<div className={styles.App + ' ' + (this.state.showSubOptions ? styles.showSubOptions : '')}>
-				<div styleName="subOptions">
+				<div
+					styleName="subOptions"
+					ref={
+						node => {
+							this.node = node;
+						}
+					}
+				>
 					{
-						new Array(optionsDataTotal).fill(0).map((item, index) => {
-							return <div key={index}>
-								<img src={require(`../../images/icons/${subOptionIconsDirName}/${index}.png`)} alt='' />
-							</div>
-						})
+						hasDirName ? new Array(optionsDataTotal).fill(0).map((item, index) => {
+							return <OptionItem
+								key={index}
+								index={index}
+								imgUrl={`${subOptionIconsDirName}/${index}.png`}
+								onClick={this.clickSubOptionItemHandler}
+								isActive={this.state.currentSubOptionIndex === index}
+							/>
+						}) : null
 					}
 				</div>
 				<div
@@ -120,6 +155,9 @@ class App extends Component {
 				</div>
 				<div styleName="arrow" onClick={this.toggleSubOptionHandler}>
 					<img src={require('../../images/icons/arrowUp.png')} alt='' />
+					<div styleName="generate" onClick={this.generateHandler}>
+						<img src={require('../../images/others/photo.png')} alt='' />
+					</div>
 				</div>
 			</div>
 		);
