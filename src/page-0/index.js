@@ -34,7 +34,7 @@ class App extends Component {
 						this.canvas = node;
 					}}
 				/>
-				<Tools />
+				<Tools onClickGenerateHandler={this.props.onClickGenerateHandler} />
 				{
 					this.state.showModal  && <ModalBegain onClick={this.clickStartGameHandler} />
 				}

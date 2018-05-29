@@ -9,7 +9,8 @@ const arrayBigClass = [
 	{
 		name: '选人',
 		mainIcon: 'xuanren.png',
-		dirIndex: '0'
+		dirName: 'sex',
+		totalIcons: 2
 	},
 	{
 		name: '服装',
@@ -17,13 +18,17 @@ const arrayBigClass = [
 		dirName: 'yifu',
 		sex: {
 			male: 6,
-			famale: 7
+			famale: 6
 		}
 	},
 	{
 		name: '角度',
 		mainIcon: 'jiaodu.png',
-		dirIndex: '1'
+		dirName: 'rotate',
+		sex: {
+			male: 3,
+			famale: 3
+		}
 	},
 	{
 		name: '发型',
@@ -49,16 +54,16 @@ const arrayBigClass = [
 		dirName: 'texiao',
 		totalIcons: 3
 	},
-	{
-		name: '场景',
-		mainIcon: 'changjing.png',
-		dirIndex: '1'
-	},
+	// {
+	// 	name: '场景',
+	// 	mainIcon: 'changjing.png',
+	// 	dirIndex: '1'
+	// },
 	{
 		name: '其他',
 		mainIcon: 'qita.png',
 		dirName: 'daoju',
-		totalIcons: 35
+		totalIcons: 41
 	}
 ];
 class App extends Component {
@@ -66,8 +71,8 @@ class App extends Component {
 		super();
 		this.state = {
 			showSubOptions: true,
-			categoryIndex: 3,
-			sex: 'male',
+			categoryIndex: 0,
+			sex: '',
 			currentSubOptionIndex: null
 		};
 	}
@@ -88,19 +93,25 @@ class App extends Component {
 	};
 
 	clickSubOptionItemHandler = (index, element) => {
-		// transform: translateX(-left);/
-		// console.log(this.node.style.transform);
 		const offsetLeft = element.offsetWidth / 2 + element.offsetLeft - this.WIDTH / 2;
 		// this.node.style.transform = `translateX(-${element.offsetWidth / 2 + element.offsetLeft - this.WIDTH / 2}px)`;
 		this.node.scrollLeft = offsetLeft;
 		this.setState({
 			currentSubOptionIndex: index
 		});
+
+		if (arrayBigClass[this.state.categoryIndex].dirName && arrayBigClass[this.state.categoryIndex].dirName === 'sex') {
+			this.setState({
+				sex: index ? 'famale' : 'male'
+			});
+		}
+		
 	};
 
 	generateHandler = (event) => {
 		event.preventDefault();
 		event.stopPropagation();
+		this.props.onClickGenerateHandler && this.props.onClickGenerateHandler();
 	};
 
 	componentDidMount() {
@@ -109,7 +120,17 @@ class App extends Component {
 	render() {
 		const category = arrayBigClass[this.state.categoryIndex];
 		const isClassBySex = !!category.sex;
-		const optionsDataTotal = isClassBySex ? category.sex[this.state.sex] : category.totalIcons;
+		let isCanRenderOption = false;
+		if (isClassBySex) {
+			isCanRenderOption = !!this.state.sex;
+		} else {
+			isCanRenderOption = true;
+		}
+
+		let optionsDataTotal = 0;
+		if (isCanRenderOption) {
+			optionsDataTotal = isClassBySex ? category.sex[this.state.sex] : category.totalIcons;
+		}
 		const hasDirName = !!category.dirName;
 		const subOptionIconsDirName = isClassBySex ? `${category.dirName}/${this.state.sex}` : `${category.dirName}`;
 		return (
