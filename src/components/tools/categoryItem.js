@@ -13,7 +13,7 @@ class Item extends Component {
 			onClick={this.clickBigClassIndex}
 			>
 				<div styleName="classBtnsIcon">
-					<img src={require('../../images/icons/' + this.props.mainIcon)} />
+					<img src={require('../../images/icons/' + this.props.mainIcon)} alt='' />
 				</div>
 				<div
 					styleName="classBtnsTitle"
