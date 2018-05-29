@@ -105,7 +105,6 @@ class App extends Component {
 
 	componentDidMount() {
 		this.WIDTH = this.node.offsetWidth;
-		console.log(this.WIDTH);
 	}
 	render() {
 		const category = arrayBigClass[this.state.categoryIndex];
