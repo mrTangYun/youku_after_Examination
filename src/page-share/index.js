@@ -4,10 +4,10 @@ import styles from './App.css';
 
 class App extends Component {
 	componentDidMoung() {
-		window.HollywoodLog && window.HollywoodLog.expose('sharepage.loaded', '分享页.加载完毕', '');
+		window.HollywoodLog && window.HollywoodLog.expose('sharePage.loaded', '分享页.加载完毕', '');
 	}
 	shareHandler = () => {
-		window.HollywoodLog && window.HollywoodLog.click('sharepage.click', '分享页.立刻分享', '');
+		window.HollywoodLog && window.HollywoodLog.click('sharePage.click', '分享页.立刻分享', '');
 		window.share && window.share();
 	};
 	render() {
