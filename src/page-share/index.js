@@ -13,7 +13,7 @@ class App extends Component {
 		return (
 			<div styleName="App">
 				<div styleName="composeImg">
-					<img src={require('../images/pshare/compose.jpg')} alt='' />
+					<img src={this.props.imgUrl} alt='' />
 				</div>
 				<div styleName="footer">
 					<div styleName="leftText">
