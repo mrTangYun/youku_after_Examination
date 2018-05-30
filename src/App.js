@@ -15,6 +15,10 @@ class App extends Component {
 	};
 
 	clickGenerateHandler = () => {
+		if (window.Avatar) {
+			// TODO: 生成图片
+			const img64 = window.Avatar.exec('generate');
+		}
 		try {
 			if (this.isFetching) return false;
 			this.isFetching = true;
