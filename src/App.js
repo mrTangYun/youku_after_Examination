@@ -8,6 +8,7 @@ class App extends Component {
 		showSharePage: false,
 	};
 	clickStartHandler = () => {
+		window.HollywoodLog && window.HollywoodLog.click('homepage.start', '首页.开始', '');
 		this.setState({
 			showHomepage: false
 		});
@@ -17,6 +18,7 @@ class App extends Component {
 		this.setState({
 			showSharePage: true
 		});
+		window.HollywoodLog && window.HollywoodLog.click('canvas.generate', '画布页.生成', '');
 	};
 
 	componentDidMount() {

@@ -3,6 +3,12 @@ import CSSModules from 'react-css-modules';
 import styles from './App.css';
 
 class App extends Component {
+	componentDidMoung() {
+		window.HollywoodLog && window.HollywoodLog.expose('sharepage.loaded', '分享页.加载完毕', '');
+	}
+	shareHandler = () => {
+		window.HollywoodLog && window.HollywoodLog.click('sharepage.click', '分享页.立刻分享', '');
+	};
 	render() {
 		return (
 			<div styleName="App">
@@ -20,7 +26,7 @@ class App extends Component {
 							<div styleName="t3">上优酷下拉首页有惊喜</div>
 						</div>
 					</div>
-					<div styleName="btnShare">分享图片</div>
+					<div styleName="btnShare" onClick={this.shareHandler}>分享图片</div>
 				</div>
 			</div>
 		);

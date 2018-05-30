@@ -20,6 +20,8 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>高考后</title>
+
+    <script src="https://g.alicdn.com/hollywood/hollywood-lib/2.0.22/index.js"></script>
     <script src="//g.alicdn.com/fdilab/lib3rd/viewport-units-buggyfill/0.6.2/??viewport-units-buggyfill.hacks.min.js,viewport-units-buggyfill.min.js"></script>
     <style>
       #root{
@@ -132,7 +134,32 @@
 		    window.viewportUnitsBuggyfill.init({
 			    hacks: window.viewportUnitsBuggyfillHacks
 		    });
-	    }
+      }
+      
+      window.HollywoodConfig = { 
+        actid: '20180608gaokao', // 活动id，必填，埋点相关，约定：只能有字母数字组成，禁止混用其他字符如-_.等
+        actpage: 'main_page', // 页面id，必填，埋点相关，约定：只能有字母数字组成，禁止混用其他字符如-_.等   
+        // 自行设定全局唤端方案的接口，可以在不改变url中call_type的，修改代码的情况下实现对某些情况的唤端类型的修改。
+        // 比如，uc在投放时url地址设定的call_type是3，此时需要将uc唤端更改为2：
+        // 1 2 3 4，灵活设置全局的跳转方案，具体方案含义见下面跳转方案部分。
+        setGlobalCallType: function() {
+          if (window.HollywoodBrowser.isUC) {
+            return 2;
+          }
+        }, 
+        // 是否开启错误监控，默认关闭
+        enableErrorMonitor: false,
+        // 默认情况下，安卓用sheme的方式唤端，唤端失败无任何响应，通过该方法可以对唤端后的操作进行干预。
+        // 设定该方法后，唤端后不管是否唤端成功均会延迟100ms执行该方法。
+        // 该方法接受参数为一个http地址，可自行决定是否在唤端后同时跳转到该http地址。
+        onAndroidAfterJump: function(url) {}, 
+        // IOS默认用universiallink的方式唤端，唤端失败跳下载页。 
+        // 设定该方法后，IOS也会使用scheme的方式唤端，不管是否唤端成功均会延迟100ms执行该方法。
+        // 该方法接受参数为一个http地址，可自行决定是否在唤端后同时跳转到该http地址。
+        onIOSAfterJump: function(url) {}
+      }
+      // 曝光事件
+      window.HollywoodLog && window.HollywoodLog.expose('homepage.loaded', '首页.加载完毕', '');
     </script>
   </body>
 </html>

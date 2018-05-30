@@ -91,6 +91,7 @@ class App extends Component {
 			categoryIndex: index,
 			currentSubOptionIndex: null
 		});
+		window.HollywoodLog && window.HollywoodLog.click('canvas.icon', '画布页.分类' + arrayBigClass[index].name, '');
 	};
 
 	clickSubOptionItemHandler = (index, element) => {
