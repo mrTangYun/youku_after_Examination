@@ -8,6 +8,7 @@ class App extends Component {
 	}
 	shareHandler = () => {
 		window.HollywoodLog && window.HollywoodLog.click('sharepage.click', '分享页.立刻分享', '');
+		window.share && window.share();
 	};
 	render() {
 		return (
