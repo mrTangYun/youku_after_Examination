@@ -11,6 +11,7 @@ class App extends Component {
 				}}>
 					<div styleName="title">演示动画</div>
 					<div styleName="xlt">
+						<img src={require('../../images/others/intro.gif')} alt='' />
 						<div styleName="icon-scale" />
 						<div styleName="icon-close" />
 						<div styleName="icon-rotate" />

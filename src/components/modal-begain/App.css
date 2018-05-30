@@ -49,6 +49,9 @@
   background-size: 191px auto;
   background-position: center;
 }
+.xlt img{
+  width: 100%;
+}
 
 .icon-scale, .icon-close, .icon-rotate{
   position: absolute;
