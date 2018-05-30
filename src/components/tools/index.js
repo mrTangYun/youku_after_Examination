@@ -54,11 +54,12 @@ const arrayBigClass = [
 		dirName: 'texiao',
 		totalIcons: 3
 	},
-	// {
-	// 	name: '场景',
-	// 	mainIcon: 'changjing.png',
-	// 	dirIndex: '1'
-	// },
+	{
+		name: '场景',
+		mainIcon: 'changjing.png',
+		dirName: 'changjing',
+		totalIcons: 5
+	},
 	{
 		name: '其他',
 		mainIcon: 'qita.png',
