@@ -18,6 +18,11 @@ class App extends Component {
 			showSharePage: true
 		});
 	};
+
+	componentDidMount() {
+		const LOADING_NODE = document.getElementById('loading');
+		LOADING_NODE && LOADING_NODE.parentNode.removeChild(LOADING_NODE);
+	}
 	render() {
 		if (this.state.showHomepage) {
 			return <PageHomePage onClick={this.clickStartHandler} />;

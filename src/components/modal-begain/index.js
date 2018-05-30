@@ -5,8 +5,10 @@ import styles from './App.css';
 class App extends Component {
 	render() {
 		return (
-			<div styleName="App">
-				<div styleName="modal">
+			<div styleName="App" onClick={this.props.onClick}>
+				<div styleName="modal" onClick={(event) => {
+					event.stopPropagation();
+				}}>
 					<div styleName="title">演示动画</div>
 					<div styleName="xlt">
 						<div styleName="icon-scale" />
