@@ -120,23 +120,7 @@ class App extends Component {
         if (!Avatar) {
             return;
         }
-        switch (type) {
-            case 'Scene':
-                Avatar.exec(type, index);
-                break;
-            case 'Role':
-                Avatar.exec(type, index);
-                break;
-            case 'Face':
-                Avatar.exec(type, index);
-                break;
-            case 'Hair':
-                Avatar.exec(type, index);
-                break;
-            case 'Goods':
-                Avatar.exec(type, index);
-                break;
-        }
+        Avatar.exec(type, index);
 	};
 
 	generateHandler = (event) => {
