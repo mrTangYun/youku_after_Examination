@@ -14,7 +14,7 @@ export default class Music extends Component {
 		super();
 		this.state = {
 			status: false,
-			fakePlaying: true
+			fakePlaying: false
 		};
 	}
 	componentDidMount() {

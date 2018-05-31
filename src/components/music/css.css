@@ -2,24 +2,24 @@
 }
 .audio_btn{
     position: absolute;
-    top: 53px;
-    left: 53px;
-    background: red;
+    top: 24px;
+    right: 24px;
+    /* background: red; */
 }
 .play, .pause{
-    width: 72px;
-    height: 63px;
+    width: 54px;
+    height: 54px;
     background-repeat: no-repeat;
     background-size: auto 100%;
     background-position: center;
     transform-origin: 50% 50%;
 }
 .play{
-    animation: rotating 2s linear infinite;
-    /* background-image: url(../../images/others/music/start.png); */
+    /* animation: rotating 2s linear infinite; */
+    background-image: url(../../images/others/music/on.png);
 }
 .pause {
-    /* background-image: url(../../images/others/music/stop.png); */
+    background-image: url(../../images/others/music/off.png);
 }
 
 @keyframes rotating {
