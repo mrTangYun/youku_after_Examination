@@ -107,13 +107,17 @@ class App extends Component {
 				sex: index ? 'famale' : 'male'
 			});
 		}
-		
+		if (arrayBigClass[this.state.categoryIndex].dirName && arrayBigClass[this.state.categoryIndex].dirName === 'changjing') {
+			this.setState({
+				changjing: index
+			});
+		}
 	};
 
 	generateHandler = (event) => {
 		event.preventDefault();
 		event.stopPropagation();
-		this.props.onClickGenerateHandler && this.props.onClickGenerateHandler();
+		this.props.onClickGenerateHandler && this.props.onClickGenerateHandler(this.state.changjing || 0);
 	};
 
 	componentDidMount() {

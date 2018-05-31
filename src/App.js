@@ -6,6 +6,7 @@ class App extends Component {
 	state = {
 		showHomepage: true,
 		showSharePage: false,
+		currentChangjingIndex: 0
 	};
 	clickStartHandler = () => {
 		window.HollywoodLog && window.HollywoodLog.click('homePageStart.click', '首页.开始', '');
@@ -14,7 +15,7 @@ class App extends Component {
 		});
 	};
 
-	clickGenerateHandler = () => {
+	clickGenerateHandler = (currentChangjingIndex) => {
 		try {
 			if (this.isFetching) return false;
 			this.isFetching = true;
@@ -24,6 +25,7 @@ class App extends Component {
 			window.uploadImg && window.uploadImg('', (imgUrl) => {
 				this.setState({
 					showSharePage: true,
+					currentChangjingIndex,
 					imgUrl,
 					isFetching: false
 				});
@@ -51,7 +53,7 @@ class App extends Component {
 			return <PageHomePage onClick={this.clickStartHandler} />;
 		}
 		if (this.state.showSharePage) {
-			return <PageShare imgUrl={this.state.imgUrl} />;
+			return <PageShare imgUrl={this.state.imgUrl} changjingIndex={this.state.currentChangjingIndex} />;
 		}
 		return (
 			<Page0 onClickGenerateHandler={this.clickGenerateHandler} />
