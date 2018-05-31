@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Page0 from './page-0';
 import PageShare from './page-share';
 import PageHomePage from './page-homepage';
+import Music from './components/music';
 class App extends Component {
 	state = {
 		showHomepage: true,
@@ -16,6 +17,10 @@ class App extends Component {
 	};
 
 	clickGenerateHandler = (currentChangjingIndex) => {
+		if (window.Avatar) {
+			// TODO: 生成图片
+			const img64 = window.Avatar.exec('generate');
+		}
 		try {
 			if (this.isFetching) return false;
 			this.isFetching = true;
@@ -49,15 +54,15 @@ class App extends Component {
 		LOADING_NODE && LOADING_NODE.parentNode.removeChild(LOADING_NODE);
 	}
 	render() {
+		let currentComponent;
 		if (this.state.showHomepage) {
-			return <PageHomePage onClick={this.clickStartHandler} />;
-		}
-		if (this.state.showSharePage) {
-			return <PageShare imgUrl={this.state.imgUrl} changjingIndex={this.state.currentChangjingIndex} />;
-		}
-		return (
-			<Page0 onClickGenerateHandler={this.clickGenerateHandler} />
-		);
+			currentComponent =  <PageHomePage onClick={this.clickStartHandler} key={'homepage'} />;
+		} else if (this.state.showSharePage) {
+			currentComponent =  <PageShare imgUrl={this.state.imgUrl} changjingIndex={this.state.currentChangjingIndex} key={'sharepage'} />;
+		} else {
+			currentComponent =  <Page0 onClickGenerateHandler={this.clickGenerateHandler} key={'gamepage'} />
+		};
+		return [currentComponent, <Music key={'music'} />]
 	}
 }
 
