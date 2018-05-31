@@ -15,6 +15,9 @@ class App extends Component {
 	componentDidMount() {
 		window.HollywoodLog && window.HollywoodLog.expose('canvas.loaded', '画布页.加载完毕', '');
 		window.canvasContainer = this.canvas;
+		if (window.Avatar) {
+			window.Avatar.exec('init');
+		}
 	}
 
 	componentWillUnMount() {

@@ -6,66 +6,74 @@ import OptionItem from './optionItem';
 
 
 const arrayBigClass = [
-	{
-		name: '选人',
-		mainIcon: 'xuanren.png',
-		dirName: 'sex',
-		totalIcons: 2
-	},
-	{
-		name: '服装',
-		mainIcon: 'yifu.png',
-		dirName: 'yifu',
-		sex: {
-			male: 6,
-			famale: 6
-		}
-	},
-	{
-		name: '角度',
-		mainIcon: 'jiaodu.png',
-		dirName: 'rotate',
-		sex: {
-			male: 3,
-			famale: 3
-		}
-	},
-	{
-		name: '发型',
-		mainIcon: 'faxing.png',
-		dirName: 'faxing',
-		sex: {
-			male: 10,
-			famale: 8
-		}
-	},
-	{
-		name: '表情',
-		mainIcon: 'biaoqing.png',
-		dirName: 'biaoqing',
-		sex: {
-			male: 6,
-			famale: 6
-		}
-	},
-	{
-		name: '特效',
-		mainIcon: 'texiao.png',
-		dirName: 'texiao',
-		totalIcons: 3
-	},
-	{
-		name: '场景',
-		mainIcon: 'changjing.png',
-		dirName: 'changjing',
-		totalIcons: 5
-	},
-	{
-		name: '其他',
-		mainIcon: 'qita.png',
-		dirName: 'daoju',
-		totalIcons: 41
-	}
+    {
+        name: '选人',
+        mainIcon: 'xuanren.png',
+        dirName: 'sex',
+        totalIcons: 2,
+        type: 'Role',
+    },
+    {
+        name: '服装',
+        mainIcon: 'yifu.png',
+        dirName: 'yifu',
+        sex: {
+            male: 6,
+            famale: 6
+        },
+        type: 'Cloth',
+    },
+    {
+        name: '角度',
+        mainIcon: 'jiaodu.png',
+        dirName: 'rotate',
+        sex: {
+            male: 3,
+            famale: 3
+        },
+        type: 'FacingTo',
+    },
+    {
+        name: '发型',
+        mainIcon: 'faxing.png',
+        dirName: 'faxing',
+        sex: {
+            male: 10,
+            famale: 8
+        },
+        type: 'Hair',
+    },
+    {
+        name: '表情',
+        mainIcon: 'biaoqing.png',
+        dirName: 'biaoqing',
+        sex: {
+            male: 6,
+            famale: 6
+        },
+        type: 'Face',
+    },
+    {
+        name: '特效',
+        mainIcon: 'texiao.png',
+        dirName: 'texiao',
+        totalIcons: 3,
+        type: 'Effect',
+    },
+    {
+        name: '场景',
+        mainIcon: 'changjing.png',
+        dirName: 'changjing',
+        totalIcons: 5,
+        type: 'Scene',
+    },
+    {
+        name: '其他',
+        mainIcon: 'qita.png',
+        dirName: 'daoju',
+        totalIcons: 41,
+        type: 'Goods',
+    }
 ];
 class App extends Component {
 	constructor() {
@@ -107,7 +115,12 @@ class App extends Component {
 				sex: index ? 'famale' : 'male'
 			});
 		}
-		
+		const type = arrayBigClass[this.state.categoryIndex].type;
+        const Avatar = window.Avatar;
+        if (!Avatar) {
+            return;
+        }
+        Avatar.exec(type, index);
 	};
 
 	generateHandler = (event) => {
