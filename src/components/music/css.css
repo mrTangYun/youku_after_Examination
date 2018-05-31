@@ -1,0 +1,31 @@
+.btnMusic{
+}
+.audio_btn{
+    position: absolute;
+    top: 53px;
+    left: 53px;
+    background: red;
+}
+.play, .pause{
+    width: 72px;
+    height: 63px;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: center;
+    transform-origin: 50% 50%;
+}
+.play{
+    animation: rotating 2s linear infinite;
+    /* background-image: url(../../images/others/music/start.png); */
+}
+.pause {
+    /* background-image: url(../../images/others/music/stop.png); */
+}
+
+@keyframes rotating {
+    0% { transform: translate3d(0, 0px, 0) }
+    25% { transform: translate3d(0, 10px, 0) }
+    50% { transform: translate3d(0, 0px, 0) }
+    75% { transform: translate3d(0, -10px, 0) }
+    100% { transform: translate3d(0, 0px, 0) }
+}
