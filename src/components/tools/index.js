@@ -7,21 +7,18 @@ import OptionItem from './optionItem';
 
 const arrayBigClass = [
     {
+        name: '场景',
+        mainIcon: 'changjing.png',
+        dirName: 'changjing',
+        totalIcons: 5,
+        type: 'Scene',
+    },
+    {
         name: '选人',
         mainIcon: 'xuanren.png',
         dirName: 'sex',
         totalIcons: 2,
         type: 'Role',
-    },
-    {
-        name: '服装',
-        mainIcon: 'yifu.png',
-        dirName: 'yifu',
-        sex: {
-            male: 6,
-            famale: 6
-        },
-        type: 'Cloth',
     },
     {
         name: '角度',
@@ -32,6 +29,16 @@ const arrayBigClass = [
             famale: 3
         },
         type: 'FacingTo',
+    },
+    {
+        name: '服装',
+        mainIcon: 'yifu.png',
+        dirName: 'yifu',
+        sex: {
+            male: 6,
+            famale: 6
+        },
+        type: 'Cloth',
     },
     {
         name: '发型',
@@ -54,25 +61,18 @@ const arrayBigClass = [
         type: 'Face',
     },
     {
+        name: '道具',
+        mainIcon: 'qita.png',
+        dirName: 'daoju',
+        totalIcons: 41,
+        type: 'Goods',
+    },
+    {
         name: '特效',
         mainIcon: 'texiao.png',
         dirName: 'texiao',
         totalIcons: 3,
         type: 'Effect',
-    },
-    {
-        name: '场景',
-        mainIcon: 'changjing.png',
-        dirName: 'changjing',
-        totalIcons: 5,
-        type: 'Scene',
-    },
-    {
-        name: '其他',
-        mainIcon: 'qita.png',
-        dirName: 'daoju',
-        totalIcons: 41,
-        type: 'Goods',
     }
 ];
 class App extends Component {
@@ -99,7 +99,7 @@ class App extends Component {
 			categoryIndex: index,
 			currentSubOptionIndex: null
 		});
-		window.HollywoodLog && window.HollywoodLog.click('canvasIcon.click', '画布页.分类' + arrayBigClass[index].name, '');
+		window.HollywoodLog && window.HollywoodLog.click('canvasIcon.click', '画布页Icon.点击', arrayBigClass[index].name);
 	};
 
 	clickSubOptionItemHandler = (index, element) => {
