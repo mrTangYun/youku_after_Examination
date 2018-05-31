@@ -18,12 +18,36 @@ export default class Music extends Component {
 		};
 	}
 	componentDidMount() {
-        document.body.addEventListener('touchstart', this.mokAutoPlay);
 		this.media.addEventListener('timeupdate', timeupdateHandler);
+		this.media.addEventListener('play', this.playHandler);
+		this.media.addEventListener('pause', this.pauseHandler);
+		document.addEventListener("WeixinJSBridgeReady", this.weixinJSBridgeReadyHandler); 
+		document.body.removeEventListener('touchstart', this.mokAutoPlay);
+		this.play();
+	}
+
+	
+	weixinJSBridgeReadyHandler = () => {
+		document.removeEventListener("WeixinJSBridgeReady", this.weixinJSBridgeReadyHandler); 
+		document.body.removeEventListener('touchstart', this.mokAutoPlay);
+		this.play();
+	}
+	playHandler = () => {
+		this.setState({
+            status: true
+        });
+	}
+	pauseHandler = () => {
+		this.setState({
+            status: false
+        });
 	}
 
 	componentWillUnmount() {
         this.media.removeEventListener('timeupdate', timeupdateHandler);
+		this.media.removeEventListener('play', this.playHandler);
+		this.media.removeEventListener('pause', this.pauseHandler);
+		document.body.removeEventListener('touchstart', this.mokAutoPlay);
 	}
     clickHandler = () => {
 		if (this.state.status) {
@@ -35,26 +59,13 @@ export default class Music extends Component {
 
 	mokAutoPlay = () => {
 		document.body.removeEventListener('touchstart', this.mokAutoPlay);
-		this.setState({
-			fakePlaying: false
-		});
-		if (this.hasSetAutoPlay) {
-			return false;
-		}
-		this.hasSetAutoPlay = true;
 		this.play();
 	};
+	
 	play = () => {
-		if (this.state.status) return false;
-        this.setState({
-            status: true
-        });
         this.media.play();
 	};
 	stop = () => {
-		this.setState({
-			status: false
-		});
         this.media.pause()
 	};
 	render() {
