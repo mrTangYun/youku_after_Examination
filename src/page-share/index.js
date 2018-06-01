@@ -71,16 +71,58 @@ function rd(n,m){
 	return Math.floor(Math.random() * c + n);
 }
 class App extends Component {
+	state = {
+		isFetching: false
+	};
+
 	componentDidMount() {
+		this.upload();
 		window.HollywoodLog && window.HollywoodLog.expose('sharePage.loaded', '分享页.加载完毕', '');
 	}
+
+	upload = () => {
+		try {
+			if (this.isFetching) return false;
+			this.isFetching = true;
+			this.setState({
+				isFetching: true
+			});
+			window.uploadImg && window.uploadImg(this.props.imgUrl, (imgUrl) => {
+				this.setState({
+					imgUrl,
+					isFetching: false,
+					isUploaded: true
+				});
+				this.isFetching = false;
+			}, (error) => {
+				console.log(error);
+				this.isFetching = false;
+				this.setState({
+					isFetching: false,
+					isUploaded: false
+				});
+			});
+		} catch(e) {
+			console.log(e);
+			this.isFetching = false;
+			this.setState({
+				isFetching: false,
+				isUploaded: false
+			});
+		}
+	};
 	shareHandler = () => {
-		window.HollywoodLog && window.HollywoodLog.click('sharePage.click', '分享页.立刻分享', '');
-		window.share && window.share();
+		if (this.isFetching) return false;
+		if (this.state.isUploaded) {
+			window.HollywoodLog && window.HollywoodLog.click('sharePage.click', '分享页.立刻分享', '');
+			window.share && window.share();
+		}
+		this.upload();
 	};
 	render() {
 		const datas = shareArray[this.props.changjingIndex].contents;
 		const text = datas[rd(0, datas.length - 1)];
+		const btnStr = this.state.isFetching ? '上传中' : (this.state.isUploaded ? '分享图片' : '重新上传');
 		return (
 			<div styleName="App">
 				<div styleName="composeImg">
@@ -97,7 +139,7 @@ class App extends Component {
 							<div styleName="t3">上优酷下拉首页有惊喜</div>
 						</div>
 					</div>
-					<div styleName="btnShare" onClick={this.shareHandler}>分享图片</div>
+					<div styleName="btnShare" onClick={this.shareHandler}>{btnStr}</div>
 				</div>
 			</div>
 		);

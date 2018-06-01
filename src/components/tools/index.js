@@ -136,7 +136,19 @@ class App extends Component {
 
 	componentDidMount() {
 		this.WIDTH = this.node.offsetWidth;
+		window.addEventListener('roleFocus', this.handlerClickRole);
 	}
+
+	componentWillUnmount() {
+		window.removeEventListener('roleFocus', this.handlerClickRole);
+	}
+
+	handlerClickRole = (event) => {
+		const sex = event.sex || event.detial.sex
+		this.setState({
+			sex: sex ? 'famale' : 'male'
+		});
+	};
 	render() {
 		const category = arrayBigClass[this.state.categoryIndex];
 		const isClassBySex = !!category.sex;
