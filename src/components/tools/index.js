@@ -144,10 +144,14 @@ class App extends Component {
 	}
 
 	handlerClickRole = (event) => {
-		const sex = event.sex || event.detial.sex
-		this.setState({
-			sex: sex ? 'famale' : 'male'
-		});
+		try {
+			const sex = event.detail.sex
+			this.setState({
+				sex: sex ? 'famale' : 'male'
+			});
+		} catch(e) {
+			console.log(e);
+		}
 	};
 	render() {
 		const category = arrayBigClass[this.state.categoryIndex];

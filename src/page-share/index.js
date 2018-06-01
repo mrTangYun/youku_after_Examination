@@ -76,6 +76,11 @@ class App extends Component {
 	};
 
 	componentDidMount() {
+		const datas = shareArray[this.props.changjingIndex].contents;
+		const text = datas[rd(0, datas.length - 1)];
+		this.setState({
+			text
+		});
 		this.upload();
 		window.HollywoodLog && window.HollywoodLog.expose('sharePage.loaded', '分享页.加载完毕', '');
 	}
@@ -120,9 +125,7 @@ class App extends Component {
 		this.upload();
 	};
 	render() {
-		const datas = shareArray[this.props.changjingIndex].contents;
-		const text = datas[rd(0, datas.length - 1)];
-		const btnStr = this.state.isFetching ? '上传中' : (this.state.isUploaded ? '分享图片' : '重新上传');
+		const btnStr = this.state.isFetching ? '上传中..' : (this.state.isUploaded ? '分享图片' : '重新上传');
 		return (
 			<div styleName="App">
 				<div styleName="composeImg">
@@ -131,7 +134,7 @@ class App extends Component {
 				<div styleName="footer">
 					<div styleName="leftText">
 						<div styleName="t1">高考后的那一夜...</div>
-						<div styleName="t2">{text}</div>
+						<div styleName="t2">{this.state.text}</div>
 						<div styleName="logoAndT3">
 							<div styleName="logo">
 								<img src={require('../images/pshare/logo.png')} alt='' />
@@ -139,7 +142,7 @@ class App extends Component {
 							<div styleName="t3">上优酷下拉首页有惊喜</div>
 						</div>
 					</div>
-					<div styleName="btnShare" onClick={this.shareHandler}>{btnStr}</div>
+					<div styleName={this.state.isFetching ? "btnShareFetching" : "btnShare"} onClick={this.shareHandler}>{btnStr}</div>
 				</div>
 			</div>
 		);
