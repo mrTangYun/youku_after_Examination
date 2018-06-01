@@ -120,7 +120,7 @@ class App extends Component {
 		if (this.isFetching) return false;
 		if (this.state.isUploaded) {
 			window.HollywoodLog && window.HollywoodLog.click('sharePage.click', '分享页.立刻分享', '');
-			window.share && window.share();
+			window.share && window.share(rd(0, 3), require('../images/pshare/share.jpg'));
 		}
 		this.upload();
 	};

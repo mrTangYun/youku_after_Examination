@@ -25,6 +25,14 @@
     <script src="//g.alicdn.com/mtb/lib-mtop/2.3.14/mtop.js"></script>
     <script src="https://g.alicdn.com/hollywood/hollywood-lib/2.0.22/index.js"></script>
     <script src="//g.alicdn.com/fdilab/lib3rd/viewport-units-buggyfill/0.6.2/??viewport-units-buggyfill.hacks.min.js,viewport-units-buggyfill.min.js"></script>
+    <script>
+          var ua = widow.navigator.userAgent.toLowerCase();
+          if (/micromessenger/.test(ua)) {
+            window.isWx = true;
+            document.write('<script src="//res.wx.qq.com/js/jweixin-1.0.0.js"><\/script/>');
+          }
+    </script>
+    <script src="//g.alicdn.com/ku/lib-share/0.0.6/lib-share.js"></script>
     <style>
       html, body, #root{
         width: 100%;
@@ -207,7 +215,25 @@
           }
       });
   
-      function test_share() {
+      function test_share(index, imgUrl) {
+          var titleArray = [
+            '惊了！高考之后玩儿这么大？',
+            '现在高考后的狂欢，你不懂！',
+            '考前一本正经，考后欢脱放浪',
+            '同学说考完嗨一下，然后看到了这一幕…...'
+          ];
+          var title = titleArray[index];
+          var shareLink = window.location.href;
+          if (window.isWx) {
+            window.shareH5 && window.shareH5({
+              title: title,
+              timelineTitle: title,
+              desc: '在这里，放肆嗨！',
+              link: shareLink,
+              shareImage: window.location.origin + imgUrl
+            });
+            return;
+          }
           if (navigator.userAgent.indexOf('Youku/') < 0) {
               return;
           }
@@ -215,8 +241,8 @@
               taskId: TASK_ID,
               sourceId: 10,
               outputType: 1,
-              url: 'http://v.youku.com',
-              titleText: '我在优酷发现了⼀个有趣的视频',
+              url: shareLink,
+              titleText: title,
           };
           WindVane.call('WVBehavioursBridge', 'showShareView', params,
               function (e) {
