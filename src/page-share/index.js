@@ -121,6 +121,7 @@ class App extends Component {
 		if (this.state.isUploaded) {
 			window.HollywoodLog && window.HollywoodLog.click('sharePage.click', '分享页.立刻分享', '');
 			window.share && window.share(rd(0, 3), require('../images/pshare/share.jpg'));
+			return false;
 		}
 		this.upload();
 	};
