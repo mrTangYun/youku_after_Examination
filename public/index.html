@@ -26,8 +26,10 @@
     <script src="https://g.alicdn.com/hollywood/hollywood-lib/2.0.22/index.js"></script>
     <script src="//g.alicdn.com/fdilab/lib3rd/viewport-units-buggyfill/0.6.2/??viewport-units-buggyfill.hacks.min.js,viewport-units-buggyfill.min.js"></script>
     <script>
-          var ua = widow.navigator.userAgent.toLowerCase();
-          if (/micromessenger/.test(ua)) {
+          var ua = window.navigator.userAgent.toLowerCase();
+          console.log(ua);
+          if (!/micromessenger/.test(ua)) {
+          console.log(2);
             window.isWx = true;
             document.write('<script src="//res.wx.qq.com/js/jweixin-1.0.0.js"><\/script/>');
           }
@@ -224,6 +226,7 @@
           ];
           var title = titleArray[index];
           var shareLink = window.location.href;
+          console.log(window.location.origin, imgUrl);
           if (window.isWx) {
             window.shareH5 && window.shareH5({
               title: title,
