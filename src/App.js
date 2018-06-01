@@ -20,32 +20,31 @@ class App extends Component {
 		if (window.Avatar) {
 			// TODO: 生成图片
 			const img64 = window.Avatar.exec('generate');
-		}
-		try {
-			if (this.isFetching) return false;
-			this.isFetching = true;
-			this.setState({
-				isFetching: true
-			});
-			window.uploadImg && window.uploadImg('', (imgUrl) => {
+			try {
+				if (this.isFetching) return false;
+				this.isFetching = true;
 				this.setState({
-					showSharePage: true,
-					currentChangjingIndex,
-					imgUrl,
-					isFetching: false
+					isFetching: true
 				});
-				this.isFetching = false;
-			}, (error) => {
-				console.log(error);
-				this.isFetching = false;
-				this.setState({
-					isFetching: false
+				window.uploadImg && window.uploadImg(img64, (imgUrl) => {
+					this.setState({
+						showSharePage: true,
+						currentChangjingIndex,
+						imgUrl,
+						isFetching: false
+					});
+					this.isFetching = false;
+				}, (error) => {
+					console.log(error);
+					this.isFetching = false;
+					this.setState({
+						isFetching: false
+					});
 				});
-			});
-		} catch(e) {
-			console.log('hello');
+			} catch(e) {
+				console.log('hello');
+			}
 		}
-		
 		window.HollywoodLog && window.HollywoodLog.click('canvasGenerate.click', '画布页.生成', '');
 	};
 
