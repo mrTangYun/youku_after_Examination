@@ -64,7 +64,7 @@ const arrayBigClass = [
         name: '道具',
         mainIcon: 'qita.png',
         dirName: 'daoju',
-        totalIcons: 43,
+        totalIcons: 42,
         type: 'Goods',
     },
     {
