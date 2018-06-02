@@ -93,7 +93,6 @@ class App extends Component {
 	};
 
 	clickBigClassIndex = index => {
-		this.categoryContainer.scrollLeft = index > 3 ? 100 : 0;
 		this.setState({
 			showSubOptions: true,
 			categoryIndex: index,
@@ -103,9 +102,6 @@ class App extends Component {
 	};
 
 	clickSubOptionItemHandler = (index, element) => {
-		const offsetLeft = element.offsetWidth / 2 + element.offsetLeft - this.WIDTH / 2;
-		// this.node.style.transform = `translateX(-${element.offsetWidth / 2 + element.offsetLeft - this.WIDTH / 2}px)`;
-		this.node.scrollLeft = offsetLeft;
 		this.setState({
 			currentSubOptionIndex: index
 		});
