@@ -221,7 +221,7 @@ class App extends Component {
 									ref={node => {
 										this.ele_text3 = node;
 									}}
-									>上优酷下拉首页有惊喜</div>
+									>打开优酷app，首页下拉有惊喜</div>
 							</div>
 						</div>
 						<div styleName="ecode" style={showErCode ? {} : {display: 'none'}}>
