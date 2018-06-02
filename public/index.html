@@ -215,7 +215,7 @@
           }
       });
   
-      function test_share(index, imgUrl) {
+      function test_share(index, thumbnailUrl, imgResultFinal) {
           var titleArray = [
             '惊了！高考之后玩儿这么大？',
             '现在高考后的狂欢，你不懂！',
@@ -230,7 +230,7 @@
               timelineTitle: title,
               desc: '在这里，放肆嗨！',
               link: shareLink,
-              shareImage: window.location.origin + imgUrl
+              shareImage: window.location.origin + thumbnailUrl
             });
             return;
           }
@@ -240,9 +240,11 @@
           var params = {
               taskId: TASK_ID,
               sourceId: 10,
-              outputType: 1,
+              outputType: 3,
               url: shareLink,
               titleText: title,
+              thumbnailUrl: window.location.origin + thumbnailUrl,
+              webImageDownloadUrl: imgResultFinal
           };
           WindVane.call('WVBehavioursBridge', 'showShareView', params,
               function (e) {
@@ -282,12 +284,9 @@
                   console.log('err:', JSON.stringify(res.data.errInfo));
                   return;
               }
-              // console.log('success:', JSON.stringify(res));
-              // console.log('图片地址:', res.data.data.content);
               resovle && resovle(res.data.data.content);
           }, function (res) {
               reject && reject(res);
-              // console.log('error:', JSON.stringify(res));
           });
       }
   

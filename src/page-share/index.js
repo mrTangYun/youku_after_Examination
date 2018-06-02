@@ -71,18 +71,56 @@ function rd(n,m){
 	var c = m - n + 1;	
 	return Math.floor(Math.random() * c + n);
 }
+
+function renderText(element, ctx) {
+	const fontSize = window.getComputedStyle(element, null)['font-size'];
+	ctx.font = "normal " + fontSize + " 微软雅黑";
+	ctx.textBaseline = 'top';
+	ctx.fillText(element.childNodes[0].nodeValue, element.offsetLeft, element.offsetTop);
+}
+
+function renderImg(element, ctx) {
+	ctx.drawImage(element, element.offsetLeft, element.offsetTop, element.offsetWidth, element.offsetHeight);
+}
+
 class App extends Component {
 	state = {
-		isFetching: false
+		isFetching: true,
+		isApp: (navigator.userAgent.indexOf('Youku/') >= 0)
 	};
-
 	componentDidMount() {
 		const datas = shareArray[this.props.changjingIndex].contents;
 		const text = datas[rd(0, datas.length - 1)];
 		this.setState({
 			text
 		});
-		this.upload();
+
+		const canvas = document.createElement('canvas');
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		const ctx = this.context = canvas.getContext('2d');
+		const img = new Image();
+		img.src = this.props.imgUrl;
+		img.onload = () => {
+			ctx.save();
+			ctx.fillStyle = "white";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			ctx.restore();
+			ctx.drawImage(this.composeImg, this.composeImgContainer.offsetLeft, this.composeImgContainer.offsetTop, this.composeImgContainer.offsetWidth, this.composeImgContainer.offsetHeight);
+			renderImg(this.ele_youkuLogo, ctx);
+			renderImg(this.ele_ecode, ctx);
+			renderImg(this.ele_wenan, ctx);
+			renderText(this.ele_text2, ctx);
+			renderText(this.ele_text3, ctx);
+
+			this.dataUrl = canvas.toDataURL();
+			if (!this.state.isApp) {
+				this.setState({
+					resultImgData: this.dataUrl
+				});
+			}
+			this.upload();
+		}
 		window.HollywoodLog && window.HollywoodLog.expose('sharePage.loaded', '分享页.加载完毕', '');
 	}
 
@@ -93,11 +131,13 @@ class App extends Component {
 			this.setState({
 				isFetching: true
 			});
-			window.uploadImg && window.uploadImg(this.props.imgUrl, (imgUrl) => {
+			window.uploadImg && window.uploadImg(this.dataUrl, (imgUrl) => {
+				console.log(imgUrl);
+				this.imgResultFinal = imgUrl;
 				this.setState({
-					imgUrl,
 					isFetching: false,
-					isUploaded: true
+					isUploaded: true,
+					imgResultFinal: imgUrl
 				});
 				this.isFetching = false;
 			}, (error) => {
@@ -121,31 +161,86 @@ class App extends Component {
 		if (this.isFetching) return false;
 		if (this.state.isUploaded) {
 			window.HollywoodLog && window.HollywoodLog.click('sharePage.click', '分享页.立刻分享', '');
-			window.share && window.share(rd(0, 3), require('../images/pshare/share.jpg'));
+			window.share && window.share(rd(0, 3), require('../images/pshare/share.jpg'), this.imgResultFinal);
 			return false;
 		}
 		// this.upload();
 	};
 	render() {
 		const btnStr = '分享图片';
+		let showErCode = true;
+		if (this.state.isFetching) {
+			showErCode = true;
+		} else {
+			showErCode = !this.state.isApp
+		}
 		return (
 			<div styleName="App">
-				<div styleName="composeImg">
-					<img src={this.props.imgUrl} alt='' />
-				</div>
-				<div styleName="footer">
-					<div styleName="leftText">
-						<div styleName="t1">高考后的那一夜...</div>
-						<div styleName="t2">{this.state.text}</div>
-						<div styleName="logoAndT3">
-							<div styleName="logo">
-								<img src={require('../images/pshare/logo.png')} alt='' />
-							</div>
-							<div styleName="t3">上优酷下拉首页有惊喜</div>
-						</div>
+				<div styleName="app-container" ref={node => {
+					this.htmlElement = node;
+				}}>
+					<div styleName="composeImg"
+										ref={node => {
+											this.composeImgContainer = node;
+										}}>
+						<img src={this.props.imgUrl} alt='' 
+										ref={node => {
+											this.composeImg = node;
+										}}/>
 					</div>
-					<div styleName={this.state.isFetching ? "btnShareFetching" : "btnShare"} onClick={this.shareHandler}>{btnStr}</div>
+					<div styleName="footer">
+						<div styleName="leftText">
+							<div styleName="t1">
+								<img
+									ref={node => {
+										this.ele_wenan = node;
+									}}
+									src={require('../images/pshare/wenan.png')}
+									alt=''
+								/>
+							</div>
+							<div styleName="t2" 
+								ref={node => {
+									this.ele_text2 = node;
+								}}
+							>
+								{this.state.text}
+							</div>
+							<div styleName="logoAndT3">
+								<div styleName="logo">
+									<img
+										ref={node => {
+											this.ele_youkuLogo = node;
+										}}
+										src={require('../images/pshare/logo.png')}
+										alt=''
+									/>
+								</div>
+								<div
+									styleName="t3"
+									ref={node => {
+										this.ele_text3 = node;
+									}}
+									>上优酷下拉首页有惊喜</div>
+							</div>
+						</div>
+						<div styleName="ecode" style={showErCode ? {} : {display: 'none'}}>
+							<img
+								ref={node => {
+									this.ele_ecode = node;
+								}}
+								src={require('../images/pshare/ecode.png')}
+								alt=''
+							/>
+						</div>
+						<div style={showErCode ? {display: 'none'} : {}} styleName="btnShare" onClick={this.shareHandler}>{btnStr}</div>
+					</div>
 				</div>
+				{
+					(!this.state.isApp && !this.state.isFetching) ? <div styleName="wholeImg">
+						<img src={this.state.resultImgData}  alt='' />
+					</div> : null
+				}
 				{
 					this.state.isFetching && <div styleName="loadingContainer">
 					<ReactLoading/>
