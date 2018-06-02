@@ -243,7 +243,7 @@ class App extends Component {
 				}
 				{
 					this.state.isFetching && <div styleName="loadingContainer">
-					<ReactLoading/>
+					<ReactLoading width={200} />
 				</div>
 				}
 			</div>
