@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CSSModules from 'react-css-modules';
 import styles from './App.css';
+import ReactLoading from 'react-loading';
 
 const shareArray = [
 	{
@@ -123,10 +124,10 @@ class App extends Component {
 			window.share && window.share(rd(0, 3), require('../images/pshare/share.jpg'));
 			return false;
 		}
-		this.upload();
+		// this.upload();
 	};
 	render() {
-		const btnStr = this.state.isFetching ? '上传中..' : (this.state.isUploaded ? '分享图片' : '重新上传');
+		const btnStr = '分享图片';
 		return (
 			<div styleName="App">
 				<div styleName="composeImg">
@@ -145,6 +146,11 @@ class App extends Component {
 					</div>
 					<div styleName={this.state.isFetching ? "btnShareFetching" : "btnShare"} onClick={this.shareHandler}>{btnStr}</div>
 				</div>
+				{
+					this.state.isFetching && <div styleName="loadingContainer">
+					<ReactLoading/>
+				</div>
+				}
 			</div>
 		);
 	}
