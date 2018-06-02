@@ -238,7 +238,7 @@ class App extends Component {
 				</div>
 				{
 					(!this.state.isApp && !this.state.isFetching) ? <div styleName="wholeImg">
-						<img src={this.state.resultImgData}  alt='' />
+						<img src={this.state.imgResultFinal || this.state.resultImgData}  alt='' />
 					</div> : null
 				}
 				{
