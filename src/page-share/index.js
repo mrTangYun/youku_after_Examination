@@ -129,16 +129,11 @@ class App extends Component {
 			this.renderCanvas(ctx, canvas.width, canvas.height);
 			this.dataUrl = canvas.toDataURL('image/jpeg', 0.75);
 			this.setState({
-				showErCode: !this.state.isApp,
+				showErCode: false,
 			});
 			if (!this.state.isApp) {
 				this.setState({
 					resultImgData: this.dataUrl
-				}, () => {
-					this.renderCanvas(ctx, canvas.width, canvas.height);
-					this.setState({
-						resultImgData2: canvas.toDataURL('image/jpeg', 0.75)
-					});
 				});
 			}
 			this.upload();
@@ -190,8 +185,8 @@ class App extends Component {
 		// this.upload();
 	};
 	render() {
-		const btnStr = '分享图片';
-		const strErCodeTips = this.state.resultImgData ? '长按保存图片' : '长按扫描二维码';
+		const btnStr = this.state.resultImgData ? '长按保存图片' : '分享图片';
+		const strErCodeTips = '扫码二维码立即嗨';
 		return (
 			<div styleName="App">
 				<div styleName="app-container" ref={node => {
@@ -244,8 +239,8 @@ class App extends Component {
 									>打开优酷app，首页下拉有惊喜</div>
 							</div>
 						</div>
-						<div styleName="ecodeContainer" >
-							<div styleName="ecode" style={this.state.showErCode ? {} : {display: 'none'}}>
+						<div styleName="ecodeContainer" style={this.state.showErCode ? {} : {display: 'none'}} >
+							<div styleName="ecode">
 								<img
 									ref={node => {
 										this.ele_ecode = node;
@@ -266,11 +261,12 @@ class App extends Component {
 				</div>
 				{
 					(!this.state.isApp && !this.state.isFetching) ? <div styleName="wholeImg">
-						<img src={this.state.resultImgData2} alt='' />
 						<img src={this.state.resultImgData} alt='' />
 					</div> : null
 				}
-				<div styleName="btn-back" onClick={this.props.clickBackHandler} />
+				<div styleName="btn-back" onClick={this.props.clickBackHandler}>
+					<img src={require('../images/pshare/btn-back.png')} alt='' />
+				</div>
 				{
 					this.state.isFetching && <div styleName="loadingContainer">
 					<ReactLoading width={200} />

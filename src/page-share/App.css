@@ -80,8 +80,8 @@
   color: #fff;
   background: #2535b0;
   border-radius: 42px;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
   flex-shrink: 0;
   display: flex;
   justify-content: center;
@@ -158,10 +158,13 @@
 }
 .btn-back {
   position: absolute;
-  top: 24px;
-  left: 24px;
-  width: 54px;
-  height: 54px;
-  background-color: #fff;
-  border-radius: 54px;
+  top: 38px;
+  left: 43px;
+  width: 79px;
+  height: 37px;
+}
+
+.btn-back img{
+  width: 100%;
+  display: block;
 }
