@@ -67,6 +67,14 @@ const shareArray = [
 		]
 	}
 ];
+
+const titleArray = [
+	'惊了！高考之后玩儿这么大？',
+	'现在高考后的狂欢，你不懂！',
+	'考前一本正经，考后欢脱放浪',
+	'同学说考完嗨一下，然后看到了这一幕…...'
+  ];
+
 function rd(n,m){
 	var c = m - n + 1;	
 	return Math.floor(Math.random() * c + n);
@@ -132,7 +140,6 @@ class App extends Component {
 				isFetching: true
 			});
 			window.uploadImg && window.uploadImg(this.dataUrl, (imgUrl) => {
-				console.log(imgUrl);
 				this.imgResultFinal = imgUrl;
 				this.setState({
 					isFetching: false,
@@ -140,6 +147,19 @@ class App extends Component {
 					imgResultFinal: imgUrl
 				});
 				this.isFetching = false;
+
+				const title = titleArray[rd(0, 3)];
+				const shareLink = window.location.href;
+				if (window.isWx) {
+					window.shareH5 && window.shareH5({
+					  title: title,
+					  timelineTitle: title,
+					  desc: '在这里，放肆嗨！',
+					  link: shareLink,
+					  shareImage: window.location.origin + require('../images/pshare/share.jpg')
+					});
+					return;
+				}
 			}, (error) => {
 				console.log(error);
 				this.isFetching = false;
@@ -161,7 +181,8 @@ class App extends Component {
 		if (this.isFetching) return false;
 		if (this.state.isUploaded) {
 			window.HollywoodLog && window.HollywoodLog.click('sharePage.click', '分享页.立刻分享', '');
-			window.share && window.share(rd(0, 3), require('../images/pshare/share.jpg'), this.imgResultFinal);
+			window.share && window.share(titleArray[rd(0, 3)], require('../images/pshare/share.jpg'), this.imgResultFinal);
+			
 			return false;
 		}
 		// this.upload();
