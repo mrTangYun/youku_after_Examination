@@ -270,6 +270,7 @@ class App extends Component {
 						<img src={this.state.resultImgData} alt='' />
 					</div> : null
 				}
+				<div styleName="btn-back" onClick={this.props.clickBackHandler} />
 				{
 					this.state.isFetching && <div styleName="loadingContainer">
 					<ReactLoading width={200} />

@@ -16,6 +16,12 @@ class App extends Component {
 		});
 	};
 
+	clickBackHandler = () => {
+		this.setState({
+			showSharePage: false,
+		});
+	}
+
 	clickGenerateHandler = (currentChangjingIndex) => {
 		if (window.Avatar) {
 			// TODO: 生成图片
@@ -37,13 +43,21 @@ class App extends Component {
 	render() {
 		let currentComponent;
 		if (this.state.showHomepage) {
-			currentComponent =  <PageHomePage onClick={this.clickStartHandler} key={'homepage'} />;
-		} else if (this.state.showSharePage) {
-			currentComponent =  <PageShare imgUrl={this.state.imgUrl} changjingIndex={this.state.currentChangjingIndex} key={'sharepage'} />;
+		currentComponent =  [<PageHomePage onClick={this.clickStartHandler} key={'homepage'} />];
 		} else {
-			currentComponent =  <Page0 onClickGenerateHandler={this.clickGenerateHandler} key={'gamepage'} />
+			currentComponent =  [
+				<Page0 onClickGenerateHandler={this.clickGenerateHandler} key={'gamepage'} />,
+				...(this.state.showSharePage ? [
+				<PageShare
+					imgUrl={this.state.imgUrl}
+					changjingIndex={this.state.currentChangjingIndex}
+					key={'sharepage'}
+					clickBackHandler={this.clickBackHandler}
+				/>
+			] : [])
+			]
 		};
-		return [currentComponent, <Music key={'music'} />]
+		return [...currentComponent, <Music key={'music'} />]
 	}
 }
 
