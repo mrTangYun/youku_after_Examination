@@ -186,7 +186,7 @@ class App extends Component {
 	};
 	render() {
 		const btnStr = this.state.resultImgData ? '长按保存图片' : '分享图片';
-		const strErCodeTips = '扫码二维码立即嗨';
+		const strErCodeTips = '扫描二维码立即嗨';
 		return (
 			<div styleName="App">
 				<div styleName="app-container" ref={node => {
