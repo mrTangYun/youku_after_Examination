@@ -90,6 +90,26 @@ class App extends Component {
 		showErCode: true,
 		isApp: (navigator.userAgent.indexOf('Youku/') >= 0)
 	};
+
+	renderCanvas = (ctx, width, height) => {
+		ctx.save();
+		ctx.fillStyle = "white";
+		ctx.fillRect(0, 0, width, height);
+		ctx.restore();
+		const nw = this.composeImg.naturalWidth,
+			nh = this.composeImg.naturalHeight,
+			w = this.composeImgContainer.offsetWidth,
+			h = this.composeImgContainer.offsetHeight,
+			h2 = h / (nh * w / nw) * nh;
+		ctx.drawImage(this.composeImg, 0, 0, nw, h2, this.composeImgContainer.offsetLeft, this.composeImgContainer.offsetTop, w, h);
+		renderImg(this.ele_youkuLogo, ctx);
+		renderImg(this.ele_ecode, ctx);
+		renderImg(this.ele_wenan, ctx);
+		renderText(this.ele_text2, ctx);
+		renderText(this.ele_text3, ctx);
+		renderText(this.txt_saveOrScan, ctx);
+	};
+
 	componentDidMount() {
 		const datas = shareArray[this.props.changjingIndex].contents;
 		const text = datas[rd(0, datas.length - 1)];
@@ -100,26 +120,13 @@ class App extends Component {
 		const canvas = document.createElement('canvas');
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
-		const ctx = this.context = canvas.getContext('2d');
+		const ctx = canvas.getContext('2d');
+		this.canvas = canvas;
+		this.ctx = ctx;
 		const img = new Image();
 		img.src = this.props.imgUrl;
 		img.onload = () => {
-			ctx.save();
-			ctx.fillStyle = "white";
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			ctx.restore();
-			const nw = this.composeImg.naturalWidth,
-				nh = this.composeImg.naturalHeight,
-				w = this.composeImgContainer.offsetWidth,
-				h = this.composeImgContainer.offsetHeight,
-				h2 = h / (nh * w / nw) * nh;
-			ctx.drawImage(this.composeImg, 0, 0, nw, h2, this.composeImgContainer.offsetLeft, this.composeImgContainer.offsetTop, w, h);
-			renderImg(this.ele_youkuLogo, ctx);
-			renderImg(this.ele_ecode, ctx);
-			renderImg(this.ele_wenan, ctx);
-			renderText(this.ele_text2, ctx);
-			renderText(this.ele_text3, ctx);
-
+			this.renderCanvas(ctx, canvas.width, canvas.height);
 			this.dataUrl = canvas.toDataURL('image/jpeg', 0.75);
 			this.setState({
 				showErCode: !this.state.isApp,
@@ -127,6 +134,11 @@ class App extends Component {
 			if (!this.state.isApp) {
 				this.setState({
 					resultImgData: this.dataUrl
+				}, () => {
+					this.renderCanvas(ctx, canvas.width, canvas.height);
+					this.setState({
+						resultImgData2: canvas.toDataURL('image/jpeg', 0.75)
+					});
 				});
 			}
 			this.upload();
@@ -145,8 +157,7 @@ class App extends Component {
 				this.imgResultFinal = imgUrl;
 				this.setState({
 					isFetching: false,
-					isUploaded: true,
-					imgResultFinal: imgUrl
+					isUploaded: true
 				});
 				this.isFetching = false;
 
@@ -180,12 +191,7 @@ class App extends Component {
 	};
 	render() {
 		const btnStr = '分享图片';
-		// let showErCode = true;
-		// if (this.state.isFetching) {
-		// 	showErCode = true;
-		// } else {
-		// 	showErCode = !this.state.isApp
-		// }
+		const strErCodeTips = this.state.resultImgData ? '长按保存图片' : '长按扫描二维码';
 		return (
 			<div styleName="App">
 				<div styleName="app-container" ref={node => {
@@ -195,10 +201,12 @@ class App extends Component {
 										ref={node => {
 											this.composeImgContainer = node;
 										}}>
-						<img src={this.props.imgUrl} alt='' 
-										ref={node => {
-											this.composeImg = node;
-										}}/>
+						<img
+							src={this.props.imgUrl}
+							alt='' 
+							ref={node => {
+								this.composeImg = node;
+							}}/>
 					</div>
 					<div styleName="footer">
 						<div styleName="leftText">
@@ -236,21 +244,30 @@ class App extends Component {
 									>打开优酷app，首页下拉有惊喜</div>
 							</div>
 						</div>
-						<div styleName="ecode" style={this.state.showErCode ? {} : {display: 'none'}}>
-							<img
+						<div styleName="ecodeContainer" >
+							<div styleName="ecode" style={this.state.showErCode ? {} : {display: 'none'}}>
+								<img
+									ref={node => {
+										this.ele_ecode = node;
+									}}
+									src={require('../images/pshare/ecode.jpg')}
+									alt=''
+								/>
+							</div>
+							<div
+								styleName="ecodeTips"
 								ref={node => {
-									this.ele_ecode = node;
+									this.txt_saveOrScan = node;
 								}}
-								src={require('../images/pshare/ecode.png')}
-								alt=''
-							/>
+								>{strErCodeTips}</div>
 						</div>
 						<div style={this.state.showErCode ? {display: 'none'} : {}} styleName="btnShare" onClick={this.shareHandler}>{btnStr}</div>
 					</div>
 				</div>
 				{
 					(!this.state.isApp && !this.state.isFetching) ? <div styleName="wholeImg">
-						<img src={this.state.imgResultFinal || this.state.resultImgData}  alt='' />
+						<img src={this.state.resultImgData2} alt='' />
+						<img src={this.state.resultImgData} alt='' />
 					</div> : null
 				}
 				{
