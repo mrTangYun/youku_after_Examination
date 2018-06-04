@@ -135,10 +135,11 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <script>
-	    window.onload = function () {
-		    window.viewportUnitsBuggyfill.init({
-			    hacks: window.viewportUnitsBuggyfillHacks
-		    });
+      window.onload = function () {
+        window.viewportUnitsBuggyfill.init({
+          hacks: window.viewportUnitsBuggyfillHacks
+        });
+        window.HollywoodLog && window.HollywoodLog.expose('homepage.loaded', '首页.加载完毕', '');
       }
       
       window.HollywoodConfig = { 
@@ -164,7 +165,6 @@
         onIOSAfterJump: function(url) {}
       }
       // 曝光事件
-      window.HollywoodLog && window.HollywoodLog.expose('homepage.loaded', '首页.加载完毕', '');
     </script>
 
 <script>
@@ -182,24 +182,6 @@
           return isRelease ? '2018-gaokao' : '2018-gaokao-test'
       }();
   
-      const _log = console.log;
-      // console.log = function () {
-      //     const args = Array.prototype.slice.call(arguments);
-      //     _log.apply(null, args);
-      //     const n = document.createElement('div');
-      //     n.style = 'padding: 0.3rem;border-bottom: 1px solid #ccc;';
-      //     n.innerHTML = args.join(' ');
-      //     document.body.appendChild(n);
-      // }
-  
-      // addEventListener('load', function () {
-      //     console.log('is youku app:', navigator.userAgent.indexOf('Youku/') > -1);
-      //     console.log(window.navigator.userAgent);
-  
-      //     test_share();
-      //     test_upload();
-      // });
-  
       document.addEventListener('ShareResultCallback', function (e) {
           console.log('分享回调', JSON.stringify(e.param));
           switch (e.param.callbackresult) {
@@ -214,9 +196,17 @@
                   break;
           }
       });
-  
-      function test_share(title, thumbnailUrl, imgResultFinal) {
-          var shareLink = window.location.href;
+      var titleArray = [
+          '惊了！高考之后玩儿这么大？',
+          '现在高考后的狂欢，你不懂！',
+          '考前一本正经，考后欢脱放浪',
+          '同学说考完嗨一下，然后看到了这一幕…...'
+      ];
+      var shareTitle = titleArray[Math.floor(Math.random() * titleArray.length)],
+          shareLink = window.location.href,
+          thumbnailUrl = '//g.alicdn.com/ku/gaokao/static/images/share.jpg';
+
+      function share(imgResultFinal) {
           if (navigator.userAgent.indexOf('Youku/') < 0) {
               return;
           }
@@ -225,8 +215,9 @@
               sourceId: 10,
               outputType: 3,
               url: shareLink,
-              titleText: title,
-              thumbnailUrl: window.location.origin + thumbnailUrl,
+              titleText: shareTitle,
+              descText: '在这里，放肆嗨！',
+              thumbnailUrl: thumbnailUrl,
               webImageDownloadUrl: imgResultFinal
           };
           WindVane.call('WVBehavioursBridge', 'showShareView', params,
@@ -236,28 +227,37 @@
               function (e) {
                   console.log('唤起分享控件失败', JSON.stringify(e));
               });
-          WindVane.call('DYKBaseJSBridge', 'passShareInfoToNative', params,
-              function (e) {
-                  console.log('唤起分享控件成功', JSON.stringify(e));
-              },
-              function (e) {
-                  console.log('唤起分享控件失败', JSON.stringify(e));
-              });
       }
-  
-      function test_upload() {
-          document.querySelector('input[type="file"]').onchange = function(e) {
-              const img = new Image();
-              img.src = URL.createObjectURL(e.currentTarget.files[0]);
-              img.onload = function (e) {
-                  const canvas = document.querySelector('canvas');
-                  canvas.width = img.width;
-                  canvas.height = img.height;
-                  canvas.getContext('2d').drawImage(img, 0, 0);
-  
-                  uploadImg(canvas.toDataURL("image/jpeg"));
+
+      function passiveShare(imgResultFinal) {
+          if (navigator.userAgent.indexOf('Youku/') > -1) {
+              var params = {
+                  taskId: TASK_ID,
+                  sourceId: 10,
+                  outputType: 3,
+                  url: shareLink,
+                  titleText: shareTitle,
+                  descText: '在这里，放肆嗨！',
+                  thumbnailUrl: thumbnailUrl,
+                  webImageDownloadUrl: imgResultFinal
               };
-          };
+              WindVane.call('DYKBaseJSBridge', 'passShareInfoToNative', params,
+                  function (e) {
+                      console.log('唤起分享控件成功', JSON.stringify(e));
+                  },
+                  function (e) {
+                      console.log('唤起分享控件失败', JSON.stringify(e));
+                  });
+          }
+          if (window.isWx) {
+              window.shareH5 && window.shareH5({
+                  title: shareTitle,
+                  timelineTitle: shareTitle,
+                  desc: '在这里，放肆嗨！',
+                  link: shareLink,
+                  shareImage: thumbnailUrl
+              });
+          }
       }
   
       // 上传图片
@@ -305,11 +305,12 @@
       }
 
       window.uploadImg = uploadImg;
-      window.share = test_share;
+      window.share = share;
+      window.passiveShare = passiveShare;
   }();
   </script>
     <script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/pixi.js/4.7.3/pixi.min.js"></script>
-    <script src="static/script/main.js"></script>
+    <script src="//g.alicdn.com/ku/gaokao/static/script/main.js"></script>
   </body>
 </html>
