@@ -68,13 +68,6 @@ const shareArray = [
 	}
 ];
 
-const titleArray = [
-	'惊了！高考之后玩儿这么大？',
-	'现在高考后的狂欢，你不懂！',
-	'考前一本正经，考后欢脱放浪',
-	'同学说考完嗨一下，然后看到了这一幕…...'
-  ];
-
 function rd(n,m){
 	var c = m - n + 1;	
 	return Math.floor(Math.random() * c + n);
@@ -94,6 +87,7 @@ function renderImg(element, ctx) {
 class App extends Component {
 	state = {
 		isFetching: true,
+		showErCode: true,
 		isApp: (navigator.userAgent.indexOf('Youku/') >= 0)
 	};
 	componentDidMount() {
@@ -114,14 +108,22 @@ class App extends Component {
 			ctx.fillStyle = "white";
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			ctx.restore();
-			ctx.drawImage(this.composeImg, this.composeImgContainer.offsetLeft, this.composeImgContainer.offsetTop, this.composeImgContainer.offsetWidth, this.composeImgContainer.offsetHeight);
+			const nw = this.composeImg.naturalWidth,
+				nh = this.composeImg.naturalHeight,
+				w = this.composeImgContainer.offsetWidth,
+				h = this.composeImgContainer.offsetHeight,
+				h2 = h / (nh * w / nw) * nh;
+			ctx.drawImage(this.composeImg, 0, 0, nw, h2, this.composeImgContainer.offsetLeft, this.composeImgContainer.offsetTop, w, h);
 			renderImg(this.ele_youkuLogo, ctx);
 			renderImg(this.ele_ecode, ctx);
 			renderImg(this.ele_wenan, ctx);
 			renderText(this.ele_text2, ctx);
 			renderText(this.ele_text3, ctx);
 
-			this.dataUrl = canvas.toDataURL();
+			this.dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+			this.setState({
+				showErCode: !this.state.isApp,
+			});
 			if (!this.state.isApp) {
 				this.setState({
 					resultImgData: this.dataUrl
@@ -148,18 +150,7 @@ class App extends Component {
 				});
 				this.isFetching = false;
 
-				const title = titleArray[rd(0, 3)];
-				const shareLink = window.location.href;
-				if (window.isWx) {
-					window.shareH5 && window.shareH5({
-					  title: title,
-					  timelineTitle: title,
-					  desc: '在这里，放肆嗨！',
-					  link: shareLink,
-					  shareImage: window.location.origin + require('../images/pshare/share.jpg')
-					});
-					return;
-				}
+				window.passiveShare && window.passiveShare(imgUrl);
 			}, (error) => {
 				console.log(error);
 				this.isFetching = false;
@@ -181,7 +172,7 @@ class App extends Component {
 		if (this.isFetching) return false;
 		if (this.state.isUploaded) {
 			window.HollywoodLog && window.HollywoodLog.click('sharePage.click', '分享页.立刻分享', '');
-			window.share && window.share(titleArray[rd(0, 3)], require('../images/pshare/share.jpg'), this.imgResultFinal);
+			window.share && window.share(this.imgResultFinal);
 			
 			return false;
 		}
@@ -189,12 +180,12 @@ class App extends Component {
 	};
 	render() {
 		const btnStr = '分享图片';
-		let showErCode = true;
-		if (this.state.isFetching) {
-			showErCode = true;
-		} else {
-			showErCode = !this.state.isApp
-		}
+		// let showErCode = true;
+		// if (this.state.isFetching) {
+		// 	showErCode = true;
+		// } else {
+		// 	showErCode = !this.state.isApp
+		// }
 		return (
 			<div styleName="App">
 				<div styleName="app-container" ref={node => {
@@ -245,7 +236,7 @@ class App extends Component {
 									>打开优酷app，首页下拉有惊喜</div>
 							</div>
 						</div>
-						<div styleName="ecode" style={showErCode ? {} : {display: 'none'}}>
+						<div styleName="ecode" style={this.state.showErCode ? {} : {display: 'none'}}>
 							<img
 								ref={node => {
 									this.ele_ecode = node;
@@ -254,7 +245,7 @@ class App extends Component {
 								alt=''
 							/>
 						</div>
-						<div style={showErCode ? {display: 'none'} : {}} styleName="btnShare" onClick={this.shareHandler}>{btnStr}</div>
+						<div style={this.state.showErCode ? {display: 'none'} : {}} styleName="btnShare" onClick={this.shareHandler}>{btnStr}</div>
 					</div>
 				</div>
 				{
