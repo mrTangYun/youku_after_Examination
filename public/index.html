@@ -23,17 +23,18 @@
     <title>高考过后起来嗨！</title>
     <script src="//g.alicdn.com/mtb/lib-windvane/2.1.8/windvane.js"></script>
     <script src="//g.alicdn.com/mtb/lib-mtop/2.3.14/mtop.js"></script>
+    <script src="//g.alicdn.com/mtb/lib-promise/3.1.3/polyfillB.js"></script>
     <script src="https://g.alicdn.com/hollywood/hollywood-lib/2.0.22/index.js"></script>
     <script src="//g.alicdn.com/fdilab/lib3rd/viewport-units-buggyfill/0.6.2/??viewport-units-buggyfill.hacks.min.js,viewport-units-buggyfill.min.js"></script>
     <script>
           var ua = window.navigator.userAgent.toLowerCase();
           if (/micromessenger/.test(ua)) {
             window.isWx = true;
-            document.write('<script src="//res.wx.qq.com/js/jweixin-1.0.0.js"><\/script/>');
+            document.write('<script src="//res.wx.qq.com/js/jweixin-1.0.0.js"><\/script>');
           }
           if (/dingtalk/.test(ua)) {
             window.dingTalk = true;
-            document.write('<script src="//g.alicdn.com/dingding/open-develop/1.6.9/dingtalk.js"><\/script/>');
+            document.write('<script src="//g.alicdn.com/dingding/open-develop/1.6.9/dingtalk.js"><\/script>');
           }
     </script>
     <script src="//g.alicdn.com/ku/lib-share/0.0.6/lib-share.js"></script>
@@ -144,6 +145,7 @@
           hacks: window.viewportUnitsBuggyfillHacks
         });
         window.HollywoodLog && window.HollywoodLog.expose('homepage.loaded', '首页.加载完毕', '');
+        window.passiveShare('');
       }
       
       window.HollywoodConfig = { 
@@ -208,7 +210,7 @@
       ];
       var shareTitle = titleArray[Math.floor(Math.random() * titleArray.length)],
           shareLink = window.location.href,
-          thumbnailUrl = '//g.alicdn.com/ku/gaokao/static/images/share.jpg';
+          thumbnailUrl = 'https://g.alicdn.com/ku/gaokao/static/images/share.jpg';
 
       function share(imgResultFinal) {
           if (navigator.userAgent.indexOf('Youku/') < 0) {
@@ -238,13 +240,16 @@
               var params = {
                   taskId: TASK_ID,
                   sourceId: 10,
-                  outputType: 3,
+                  outputType: 1,
                   url: shareLink,
                   titleText: shareTitle,
                   descText: '在这里，放肆嗨！',
-                  thumbnailUrl: thumbnailUrl,
-                  webImageDownloadUrl: imgResultFinal
+                  thumbnailUrl: thumbnailUrl
               };
+              if (imgResultFinal) {
+                  params.webImageDownloadUrl = imgResultFinal;
+                  params.outputType = 3;
+              }
               WindVane.call('DYKBaseJSBridge', 'passShareInfoToNative', params,
                   function (e) {
                       console.log('唤起分享控件成功', JSON.stringify(e));
@@ -253,14 +258,16 @@
                       console.log('唤起分享控件失败', JSON.stringify(e));
                   });
           }
-          if (window.isWx) {
-              window.shareH5 && window.shareH5({
-                  title: shareTitle,
-                  timelineTitle: shareTitle,
-                  desc: '在这里，放肆嗨！',
-                  link: shareLink,
-                  shareImage: thumbnailUrl
-              });
+          if (!imgResultFinal) {
+              if (window.isWx || window.dingTalk) {
+                  window.shareH5 && window.shareH5({
+                      title: shareTitle,
+                      timelineTitle: shareTitle,
+                      desc: '在这里，放肆嗨！',
+                      link: shareLink,
+                      shareImage: thumbnailUrl
+                  });
+              }
           }
       }
   
