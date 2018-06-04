@@ -165,6 +165,22 @@ class App extends Component {
 		}
 		const hasDirName = !!category.dirName;
 		const subOptionIconsDirName = isClassBySex ? `${category.dirName}/${this.state.sex}` : `${category.dirName}`;
+
+		let arrayOptionItem = [];
+		if (optionsDataTotal) {
+			for (let index = 0; index < optionsDataTotal; index++) {
+				arrayOptionItem = [
+					...arrayOptionItem,
+					<OptionItem
+						key={index}
+						index={index}
+						imgUrl={`${subOptionIconsDirName}/${index}.png`}
+						onClick={this.clickSubOptionItemHandler}
+						isActive={this.state.currentSubOptionIndex === index}
+					/>
+				];
+			}
+		}
 		return (
 			<div className={styles.App + ' ' + (this.state.showSubOptions ? styles.showSubOptions : '')}>
 				<div
@@ -176,15 +192,7 @@ class App extends Component {
 					}
 				>
 					{
-						hasDirName ? new Array(optionsDataTotal).fill(0).map((item, index) => {
-							return <OptionItem
-								key={index}
-								index={index}
-								imgUrl={`${subOptionIconsDirName}/${index}.png`}
-								onClick={this.clickSubOptionItemHandler}
-								isActive={this.state.currentSubOptionIndex === index}
-							/>
-						}) : null
+						hasDirName ? arrayOptionItem : null
 					}
 				</div>
 				<div
