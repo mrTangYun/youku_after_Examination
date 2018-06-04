@@ -236,6 +236,13 @@
               function (e) {
                   console.log('唤起分享控件失败', JSON.stringify(e));
               });
+          WindVane.call('DYKBaseJSBridge', 'passShareInfoToNative', params,
+              function (e) {
+                  console.log('唤起分享控件成功', JSON.stringify(e));
+              },
+              function (e) {
+                  console.log('唤起分享控件失败', JSON.stringify(e));
+              });
       }
   
       function test_upload() {
