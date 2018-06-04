@@ -38,7 +38,7 @@ export default class Music extends Component {
 		};
 	}
 
-	onVisibilityChanged = (event) => {  
+	onVisibilityChanged = (event) => {
 		var result = document[hidden];  
 		if (result) {
 			if (this.state.status) {
@@ -52,8 +52,21 @@ export default class Music extends Component {
 			}
 		}
 	  }  
+
+	onblurHandler = () => {
+		if (this.state.status) {
+			this.stopMusicSwitchApp = true;
+			this.stop();
+		}
+	};
+	onfocusHandler = () => {
+		if (this.stopMusicSwitchApp) {
+			this.play();  
+		}
+	};
 	componentDidMount() {
-		document.addEventListener(visibilityChange, this.onVisibilityChanged);  
+		window.onblur = this.onblurHandler;
+		window.onfocus = this.onfocusHandler;
 		this.media.addEventListener('timeupdate', timeupdateHandler);
 		this.media.addEventListener('play', this.playHandler);
 		this.media.addEventListener('pause', this.pauseHandler);
@@ -81,6 +94,7 @@ export default class Music extends Component {
 	}
 
 	componentWillUnmount() {
+		document.removeEventListener(visibilityChange, this.onVisibilityChanged);  
         this.media.removeEventListener('timeupdate', timeupdateHandler);
 		this.media.removeEventListener('play', this.playHandler);
 		this.media.removeEventListener('pause', this.pauseHandler);
