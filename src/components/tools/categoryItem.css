@@ -6,6 +6,7 @@
   justify-content: center;
   transition: background 0.3s;
   position: relative;
+  flex-shrink: 0;
 }
 .item::after{
   content: ' ';
@@ -24,6 +25,7 @@
 .item.choosed .classBtnsTitle{
   display: block;
   margin-left: 29px;
+  flex-shrink: 0;
 }
 .classBtnsIcon{
   background: #717171;
