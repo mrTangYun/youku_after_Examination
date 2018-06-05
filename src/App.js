@@ -41,7 +41,9 @@ class App extends Component {
 		const metaTag=document.createElement('meta');
 		metaTag.name = "viewport"
 		metaTag.content = `width=1080, initial-scale=${scaleValue}, maximum-scale=${scaleValue}, user-scalable=0`;
+		this.currentMetaTag && document.getElementsByTagName('head')[0].removeChild(this.currentMetaTag);
 		document.getElementsByTagName('head')[0].appendChild(metaTag);
+		this.currentMetaTag = metaTag;
 	};
 
 	componentDidMount() {
@@ -52,6 +54,7 @@ class App extends Component {
 		window.addEventListener('resize', this.setViewport);
 	}
 	componentWillUnmount() {
+		this.currentMetaTag = null;
 		window.removeEventListener('resize', this.setViewport);
 	}
 	render() {
