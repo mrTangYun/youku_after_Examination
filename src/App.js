@@ -39,6 +39,12 @@ class App extends Component {
 	componentDidMount() {
 		const LOADING_NODE = document.getElementById('loading');
 		LOADING_NODE && LOADING_NODE.parentNode.removeChild(LOADING_NODE);
+		
+		const scaleValue = window.outerWidth / 1080;
+		const metaTag=document.createElement('meta');
+		metaTag.name = "viewport"
+		metaTag.content = `width=1080, initial-scale=${scaleValue}, maximum-scale=${scaleValue}, user-scalable=0`;
+		document.getElementsByTagName('head')[0].appendChild(metaTag);
 	}
 	render() {
 		let currentComponent;
