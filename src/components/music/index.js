@@ -67,6 +67,8 @@ export default class Music extends Component {
 	componentDidMount() {
 		window.onblur = this.onblurHandler;
 		window.onfocus = this.onfocusHandler;
+		document.addEventListener('WV.Event.APP.Background', this.onblurHandler);
+		document.addEventListener('WV.Event.APP.Active', this.onfocusHandler);
 		document.addEventListener(visibilityChange, this.onVisibilityChanged);  
 		this.media.addEventListener('timeupdate', timeupdateHandler);
 		this.media.addEventListener('play', this.playHandler);
