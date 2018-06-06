@@ -11,6 +11,7 @@ class App extends Component {
 	};
 	clickStartHandler = () => {
 		window.HollywoodLog && window.HollywoodLog.click('homePageStart.click', '首页.开始', '');
+		// TODO: 此处引发 iPhoneX QQ 闪退，会是命名或动态组件的问题吗？(vue 某些命名会有 bug)
 		this.setState({
 			showHomepage: false
 		});
