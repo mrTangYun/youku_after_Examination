@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta content="width=1080,user-scalable=no" name="viewport">
+    <meta name="viewport" content="width=1080,user-scalable=no,shrink-to-fit=no">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
     <meta name="theme-color" content="#000000">
     <!--
@@ -119,7 +119,7 @@
   </head>
   <body>
     <noscript>
-      You need to enable JavaScript to run this app.
+      在这里，放肆嗨！
     </noscript>
     <div id="root"></div>
     <div class='loading' id="loading">
@@ -142,7 +142,7 @@
     -->
     <script>
       window.onload = function () {
-        window.viewportUnitsBuggyfill.init({
+        window.viewportUnitsBuggyfill && window.viewportUnitsBuggyfill.init({
           hacks: window.viewportUnitsBuggyfillHacks
         });
         window.HollywoodLog && window.HollywoodLog.expose('homepage.loaded', '首页.加载完毕', '');
@@ -220,18 +220,22 @@
           var params = {
               taskId: TASK_ID,
               sourceId: 10,
-              outputType: 3,
+              outputType: 1,
               url: shareLink,
               titleText: shareTitle,
               descText: '在这里，放肆嗨！',
-              thumbnailUrl: thumbnailUrl,
-              webImageDownloadUrl: imgResultFinal
+              thumbnailUrl: thumbnailUrl
           };
+          if (imgResultFinal) {
+              params.webImageDownloadUrl = imgResultFinal;
+              params.outputType = 3;
+          }
           WindVane.call('WVBehavioursBridge', 'showShareView', params,
               function (e) {
                   console.log('唤起分享控件成功', JSON.stringify(e));
               },
               function (e) {
+                  alert('分享未成功，请重试！');
                   console.log('唤起分享控件失败', JSON.stringify(e));
               });
       }
@@ -256,11 +260,12 @@
                       console.log('唤起分享控件成功', JSON.stringify(e));
                   },
                   function (e) {
+                      alert('分享未成功，请重试！');
                       console.log('唤起分享控件失败', JSON.stringify(e));
                   });
           }
           if (!imgResultFinal) {
-              if (window.isWx || window.dingTalk) {
+              try {
                   window.shareH5 && window.shareH5({
                       title: shareTitle,
                       timelineTitle: shareTitle,
@@ -268,7 +273,7 @@
                       link: shareLink,
                       shareImage: thumbnailUrl
                   });
-              }
+              } catch (err) {}
           }
       }
   
@@ -324,5 +329,6 @@
     <script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/pixi.js/4.7.3/pixi.min.js"></script>
     <script src="//g.alicdn.com/ku/gaokao/static/script/main.js"></script>
+    <script src="//g.alicdn.com/ku/gaokao/static/script/config.js"></script>
   </body>
 </html>
