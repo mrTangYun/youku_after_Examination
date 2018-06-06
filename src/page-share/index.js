@@ -181,6 +181,9 @@ class App extends Component {
 			window.share && window.share(this.imgResultFinal);
 			
 			return false;
+		} else {
+			this.upload();
+			alert('上传未成功，请重试！');
 		}
 		// this.upload();
 	};
