@@ -41,10 +41,8 @@ export default class Music extends Component {
 	onVisibilityChanged = (event) => {
 		var result = document[hidden];  
 		if (result) {
-			if (this.state.status) {
-				this.stopMusicSwitchApp = true;
-				this.stop();
-			}
+			this.stopMusicSwitchApp = true;
+			this.stop();
 		}
 		else {
 			if (this.stopMusicSwitchApp) {
@@ -54,10 +52,8 @@ export default class Music extends Component {
 	  }  
 
 	onblurHandler = () => {
-		if (this.state.status) {
-			this.stopMusicSwitchApp = true;
-			this.stop();
-		}
+		this.stopMusicSwitchApp = true;
+		this.stop();
 	};
 	onfocusHandler = () => {
 		if (this.stopMusicSwitchApp) {
