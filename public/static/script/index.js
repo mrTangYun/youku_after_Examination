@@ -39,6 +39,25 @@
         // TODO: 上线时一定要切换到正式版
         return isRelease ? '2018-gaokao' : '2018-gaokao-test';
     }();
+    var ENV = function () {
+        var env = {
+            daily: {
+                prefix: 'daily-acs',
+                appKey: '4272'
+            },
+            pre: {
+                prefix: 'pre-acs',
+                appKey: '24679788'
+            },
+            acs: {
+                prefix: 'acs',
+                appKey: '24679788'
+            }
+        };
+        var param = url_params_decode(location.hash) || {};
+        return env[param.env] || env['acs'];
+    }();
+
     document.addEventListener('ShareResultCallback', function (e) {
         console.log('分享回调', JSON.stringify(e.param));
         switch (e.param.callbackresult) {
@@ -155,12 +174,13 @@
             reject && reject(res);
         });
     }
+
     function mtopUploadImg(imgBase64) {
-        lib.mtop.config.prefix = 'acs';
+        lib.mtop.config.prefix = ENV.prefix;
         lib.mtop.config.subDomain = '';
         lib.mtop.config.mainDomain = 'youku.com';
         var promise = lib.mtop.request({
-            appKey: '24679788',
+            appKey: ENV.appKey,
             api: 'mtop.com.youku.aplatform.weakGet',
             v: '1.0',
             ecode: 0,
@@ -178,6 +198,26 @@
         });
         return promise;
     }
+
+    function url_params_decode(str) {
+        if (str) {
+            var arr = (/^[?#]/.test(str) ? str.substr(1) : str).split("&");
+            if (arr.length) {
+                var obj = {};
+                for (var i = arr.length; i;) {
+                    var a = arr[--i].split("=");
+                    var v = decodeURIComponent(a[1]);
+                    if (/^[+-]?\d*\.?\d+(e|e\+\d+)?$/g.test(v)) {
+                        v = parseFloat(v);
+                    }
+                    obj[a[0]] = v;
+                }
+                return obj;
+            }
+        }
+        return null;
+    }
+
     window.uploadImg = uploadImg;
     window.share = share;
     window.passiveShare = passiveShare;
