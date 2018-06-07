@@ -58,7 +58,7 @@ class App extends Component {
 			currentComponent =  [<PageHomePage onClick={this.clickStartHandler} key={'homepage'} />];
 		} else {
 			currentComponent =  [
-				<Page0 onClickGenerateHandler={this.clickGenerateHandler} key={'gamepage'} />,
+				<div key={'gamepage'} >hello</div>,
 			// 	...(this.state.showSharePage ? [
 			// 	<PageShare
 			// 		imgUrl={this.state.imgUrl}
