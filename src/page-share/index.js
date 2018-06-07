@@ -112,7 +112,24 @@ class App extends Component {
 		renderText(this.txt_saveOrScan, ctx);
 	};
 
-	componentDidMount() {
+	loadImages = async images => {
+		const promises = images.map(item => {
+			return this.loadImg(item);
+		});
+		await Promise.all(promises);
+	};
+
+	loadImg = (url) => {
+		return new Promise((resove, reject) => {
+			const img = new Image();
+			img.src = url;
+			img.onload = () => {
+				resove();
+			};
+		});
+	};
+
+	async componentDidMount () {
 		const datas = shareArray[this.props.changjingIndex].contents;
 		const text = datas[rd(0, datas.length - 1)];
 		this.setState({
@@ -125,22 +142,27 @@ class App extends Component {
 		const ctx = canvas.getContext('2d');
 		this.canvas = canvas;
 		this.ctx = ctx;
-		const img = new Image();
-		img.src = this.props.imgUrl;
-		img.onload = () => {
-			this.renderCanvas(ctx, canvas.width, canvas.height);
-			this.dataUrl = canvas.toDataURL('image/jpeg', 0.75);
-			this.setState({
-				showErCode: false,
-			});
-			if (!this.state.isApp) {
-				this.setState({
-					resultImgData: this.dataUrl
-				});
-			}
-			this.upload();
-		}
+		
+		
 		window.HollywoodLog && window.HollywoodLog.expose('sharePage.loaded', '分享页.加载完毕', '');
+		await this.loadImages([
+			require('../images/pshare/logo.png'), 
+			this.props.imgUrl,
+			require('../images/pshare/ecode.jpg'),
+			require('../images/pshare/wenan.png')
+		]);
+		
+		this.renderCanvas(ctx, canvas.width, canvas.height);
+		this.dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+		this.setState({
+			showErCode: false,
+		});
+		if (!this.state.isApp) {
+			this.setState({
+				resultImgData: this.dataUrl
+			});
+		}
+		this.upload();
 	}
 
 	upload = () => {
