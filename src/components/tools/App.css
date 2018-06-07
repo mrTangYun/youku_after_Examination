@@ -68,8 +68,18 @@
   justify-content: flex-start;
   overflow-x: scroll;
   flex-wrap: nowrap;
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: auto;
   transform: all 1s;
+}
+
+.classBtns::-webkit-scrollbar{
+  background-color: #ccc;
+  height: 0px;
+  border-radius: 2px;
+}
+.classBtns::-webkit-scrollbar-thumb{
+  background-color: #999;
+  border-radius: 0px;
 }
 
 .generate{
