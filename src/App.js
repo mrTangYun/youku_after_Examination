@@ -52,7 +52,7 @@ class App extends Component {
 	render() {
 		let currentComponent;
 		if (this.state.showHomepage) {
-			currentComponent =  [<PageHomePage onClick={this.clickStartHandler} key={'homepage'} />];
+		currentComponent =  [<PageHomePage onClick={this.clickStartHandler} key={'homepage'} />];
 		} else {
 			currentComponent =  [
 				<Page0 onClickGenerateHandler={this.clickGenerateHandler} key={'gamepage'} />,
