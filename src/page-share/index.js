@@ -89,8 +89,8 @@ class App extends Component {
 		isFetching: true,
 		showErCode: true,
 		isApp: (navigator.userAgent.indexOf('Youku/') >= 0),
-		isAlipay: (navigator.userAgent.indexOf('Alipay/') >= 0),
-		isWeibo: (navigator.userAgent.indexOf('Weibo/') >= 0)
+		isAlipay: (navigator.userAgent.indexOf('Alipay') >= 0),
+		isWeibo: (navigator.userAgent.indexOf('Weibo') >= 0)
 	};
 
 	renderCanvas = (ctx, width, height) => {
