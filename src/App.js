@@ -12,11 +12,8 @@ class App extends Component {
 	clickStartHandler = () => {
 		window.HollywoodLog && window.HollywoodLog.click('homePageStart.click', '首页.开始', '');
 		// TODO: 此处引发 iPhoneX QQ 闪退，会是命名或动态组件的问题吗？(vue 某些命名会有 bug)
-			alert('start');
 		this.setState({
 			showHomepage: false
-		}, () => {
-			alert('end');
 		});
 	};
 
@@ -54,22 +51,21 @@ class App extends Component {
 	}
 	render() {
 		let currentComponent;
-		// if (this.state.showHomepage) {
-		// 	currentComponent =  [<PageHomePage onClick={this.clickStartHandler} key={'homepage'} />];
-		// } else {
-		// 	currentComponent =  [
-		// 		<Page0 onClickGenerateHandler={this.clickGenerateHandler} key={'gamepage'} />,
-		// 		...(this.state.showSharePage ? [
-		// 		<PageShare
-		// 			imgUrl={this.state.imgUrl}
-		// 			changjingIndex={this.state.currentChangjingIndex}
-		// 			key={'sharepage'}
-		// 			clickBackHandler={this.clickBackHandler}
-		// 		/>
-		// 	] : [])
-		// 	]
-		// };
-		currentComponent =  [<PageHomePage onClick={this.clickStartHandler} key={'homepage'} />];
+		if (this.state.showHomepage) {
+			currentComponent =  [<PageHomePage onClick={this.clickStartHandler} key={'homepage'} />];
+		} else {
+			currentComponent =  [
+				<Page0 onClickGenerateHandler={this.clickGenerateHandler} key={'gamepage'} />,
+				...(this.state.showSharePage ? [
+				<PageShare
+					imgUrl={this.state.imgUrl}
+					changjingIndex={this.state.currentChangjingIndex}
+					key={'sharepage'}
+					clickBackHandler={this.clickBackHandler}
+				/>
+			] : [])
+			]
+		};
 		return [...currentComponent, <Music key={'music'} />]
 	}
 }
