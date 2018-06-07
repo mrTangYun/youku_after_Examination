@@ -10,14 +10,23 @@ class App extends Component {
 		};
 	}
 
+	onClick = () => {
+		this.setState({
+			count: this.state.count ? (this.state.count + 1) : 1
+		});
+	};
+
 	render() {
 		return (
 			<div styleName="App">
 				<img src={require('../images/homepage.jpg')} alt='' />
-				<div styleName="logo">
+				<div styleName="logo" style={{
+					fontSize: '5em'
+				}}>
 					<img src={require('../images/youkulogo.png')} alt='' />
+					{this.state.count}
 				</div>
-				<div styleName="btn" onClick={this.props.onClick}>
+				<div styleName="btn" onClick={this.onClick}>
 					<img src={require('../images/button.png')} alt='' />
 				</div>
 			</div>
