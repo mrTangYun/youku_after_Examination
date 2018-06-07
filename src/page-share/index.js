@@ -88,7 +88,9 @@ class App extends Component {
 	state = {
 		isFetching: true,
 		showErCode: true,
-		isApp: (navigator.userAgent.indexOf('Youku/') >= 0)
+		isApp: (navigator.userAgent.indexOf('Youku/') >= 0),
+		isAlipay: (navigator.userAgent.indexOf('Alipay/') >= 0),
+		isWeibo: (navigator.userAgent.indexOf('Weibo/') >= 0)
 	};
 
 	renderCanvas = (ctx, width, height) => {
@@ -188,7 +190,7 @@ class App extends Component {
 		// this.upload();
 	};
 	render() {
-		const btnStr = this.state.resultImgData ? '长按保存图片' : '分享图片';
+		const btnStr = this.state.resultImgData ? ((this.state.isAlipay || this.state.isWeibo) ? '截屏保存图片' : '长按保存图片') : '分享图片';
 		const strErCodeTips = '扫描二维码立即嗨';
 		return (
 			<div styleName="App">
