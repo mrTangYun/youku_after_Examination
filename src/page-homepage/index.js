@@ -3,13 +3,6 @@ import CSSModules from 'react-css-modules';
 import styles from './App.css';
 
 class App extends Component {
-	constructor() {
-		super();
-		this.state = {
-			showModal: true
-		};
-	}
-
 	render() {
 		return (
 			<div styleName="App">
