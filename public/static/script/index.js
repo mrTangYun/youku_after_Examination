@@ -1,5 +1,5 @@
 !function () {
-    var isRelease = false;
+    var isRelease = true;
     window.onload = function () {
         window.viewportUnitsBuggyfill && window.viewportUnitsBuggyfill.init({
             hacks: window.viewportUnitsBuggyfillHacks
@@ -191,7 +191,7 @@
                 bizType: 'OSS.upload',
                 bizParam: JSON.stringify({
                     taskId: TASK_ID,
-                    name: '2018-gaokao/' + Math.floor(Math.random() * 1e7) + '_' + new Date().getTime() + '.jpg',
+                    name: '2018-gaokao/' + Math.random().toString(16).substr(2) + '_' + Math.floor(Math.random() * 1e9) + '_' + new Date().getTime() + '.jpg',
                     content: imgBase64
                 })
             }
