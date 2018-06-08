@@ -93,7 +93,7 @@ class App extends Component {
 		isWeibo: (navigator.userAgent.indexOf('Weibo') >= 0)
 	};
 
-	renderCanvas = (ctx, width, height) => {
+	renderCanvas = (ctx, width, height, imgObj) => {
 		ctx.save();
 		ctx.fillStyle = "white";
 		ctx.fillRect(0, 0, width, height);
@@ -103,7 +103,7 @@ class App extends Component {
 			w = this.composeImgContainer.offsetWidth,
 			h = this.composeImgContainer.offsetHeight,
 			h2 = h / (nh * w / nw) * nh;
-		ctx.drawImage(this.composeImg, 0, 0, nw, h2, this.composeImgContainer.offsetLeft, this.composeImgContainer.offsetTop, w, h);
+		ctx.drawImage(imgObj, 0, 0, nw, h2, this.composeImgContainer.offsetLeft, this.composeImgContainer.offsetTop, w, h);
 		renderImg(this.ele_youkuLogo, ctx);
 		renderImg(this.ele_ecode, ctx);
 		renderImg(this.ele_wenan, ctx);
@@ -131,6 +131,16 @@ class App extends Component {
 		});
 	};
 
+	getImgObjeOfPropsImg = () => {
+		return new Promise((resove, reject) => {
+			const img = new Image();
+			img.onload = () => {
+				resove(img);
+			};
+			img.src = this.props.imgUrl;
+		});
+	};
+
 	async componentDidMount () {
 		const datas = shareArray[this.props.changjingIndex].contents;
 		const text = datas[rd(0, datas.length - 1)];
@@ -148,13 +158,13 @@ class App extends Component {
 		
 		window.HollywoodLog && window.HollywoodLog.expose('sharePage.loaded', '分享页.加载完毕', '');
 		await this.loadImages([
-			this.composeImg,
 			this.ele_youkuLogo,
 			this.ele_ecode,
 			this.ele_wenan,
 		]);
 		
-		this.renderCanvas(ctx, canvas.width, canvas.height);
+		const ImgObjeOfPropsImg = await this.getImgObjeOfPropsImg();
+		this.renderCanvas(ctx, canvas.width, canvas.height, ImgObjeOfPropsImg);
 		this.dataUrl = canvas.toDataURL('image/jpeg', 0.75);
 		this.setState({
 			showErCode: false,
