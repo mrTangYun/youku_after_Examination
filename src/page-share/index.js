@@ -119,13 +119,15 @@ class App extends Component {
 		await Promise.all(promises);
 	};
 
-	loadImg = (url) => {
+	loadImg = (img) => {
 		return new Promise((resove, reject) => {
-			const img = new Image();
-			img.src = url;
-			img.onload = () => {
+			if (img.complete) {
 				resove();
-			};
+			} else {
+				img.onload = () => {
+					resove();
+				};
+			}
 		});
 	};
 
@@ -146,10 +148,10 @@ class App extends Component {
 		
 		window.HollywoodLog && window.HollywoodLog.expose('sharePage.loaded', '分享页.加载完毕', '');
 		await this.loadImages([
-			require('../images/pshare/logo.png'), 
-			this.props.imgUrl,
-			require('../images/pshare/ecode.jpg'),
-			require('../images/pshare/wenan.png')
+			this.composeImg,
+			this.ele_youkuLogo,
+			this.ele_ecode,
+			this.ele_wenan,
 		]);
 		
 		this.renderCanvas(ctx, canvas.width, canvas.height);
