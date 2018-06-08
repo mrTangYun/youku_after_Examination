@@ -98,8 +98,8 @@ class App extends Component {
 		ctx.fillStyle = "white";
 		ctx.fillRect(0, 0, width, height);
 		ctx.restore();
-		const nw = this.composeImg.naturalWidth,
-			nh = this.composeImg.naturalHeight,
+		const nw = imgObj.naturalWidth,
+			nh = imgObj.naturalHeight,
 			w = this.composeImgContainer.offsetWidth,
 			h = this.composeImgContainer.offsetHeight,
 			h2 = h / (nh * w / nw) * nh;

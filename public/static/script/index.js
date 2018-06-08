@@ -186,7 +186,7 @@
             ecode: 0,
             type: 'post',
             dataType: 'jsonp',
-            timeout: 10000,
+            timeout: 20000,
             data: {
                 bizType: 'OSS.upload',
                 bizParam: JSON.stringify({
