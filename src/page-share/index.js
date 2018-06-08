@@ -135,7 +135,9 @@ class App extends Component {
 		return new Promise((resove, reject) => {
 			const img = new Image();
 			img.onload = () => {
-				resove(img);
+				setTimeout(() => {
+					resove(img);
+				}, 100);
 			};
 			img.src = this.props.imgUrl;
 		});
