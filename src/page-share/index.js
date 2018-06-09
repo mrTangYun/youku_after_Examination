@@ -135,9 +135,20 @@ class App extends Component {
 		return new Promise((resove, reject) => {
 			const img = new Image();
 			img.onload = () => {
-				setTimeout(() => {
-					resove(img);
-				}, 100);
+				const canvas = document.createElement('canvas');
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				const ctx = canvas.getContext('2d');
+				function testDraw() {
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
+					ctx.drawImage(img, 0, 0);
+					if (ctx.getImageData(0, 0, 10, 10).data[3]) {
+						resove(img);
+					} else {
+						setTimeout(testDraw, 0);
+					}
+				}
+				testDraw();
 			};
 			img.src = this.props.imgUrl;
 		});
