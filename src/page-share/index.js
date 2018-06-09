@@ -142,7 +142,7 @@ class App extends Component {
 				function testDraw() {
 					ctx.clearRect(0, 0, canvas.width, canvas.height);
 					ctx.drawImage(img, 0, 0);
-					if (ctx.getImageData(0, 0, 10, 10).data[0]) {
+					if (ctx.getImageData(0, 0, 10, 10).data[3]) {
 						resove(img);
 					} else {
 						setTimeout(testDraw, 0);
